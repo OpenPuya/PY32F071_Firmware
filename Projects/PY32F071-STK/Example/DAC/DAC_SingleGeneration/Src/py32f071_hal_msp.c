@@ -48,9 +48,18 @@ void HAL_MspInit(void)
   __HAL_RCC_PWR_CLK_ENABLE();
 }
 
+/**
+  * @brief Initialize DAC MSP.
+  */
 void HAL_DAC_MspInit(DAC_HandleTypeDef *hdac)
 {
+  GPIO_InitTypeDef GPIO_InitStruct = {0};
+
   __HAL_RCC_GPIOA_CLK_ENABLE();
+  GPIO_InitStruct.Pin = GPIO_PIN_4;
+  GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 }
 
 /************************ (C) COPYRIGHT Puya *****END OF FILE******************/

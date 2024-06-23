@@ -66,7 +66,10 @@ int main(void)
 
   /* Set the trigger source of DAC to software trigger */
   LL_DAC_SetTriggerSource(DAC1, LL_DAC_CHANNEL_1, LL_DAC_TRIG_SOFTWARE);
-  
+
+  /* Disable the Output Buffer */
+  LL_DAC_SetOutputBuffer(DAC1,LL_DAC_CHANNEL_1,LL_DAC_OUTPUT_BUFFER_DISABLE);
+ 
   /* Enable DAC channel 1 triggering */
   LL_DAC_EnableTrigger(DAC1, LL_DAC_CHANNEL_1);
   

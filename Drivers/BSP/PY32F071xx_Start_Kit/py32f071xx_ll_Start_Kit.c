@@ -214,7 +214,7 @@ void BSP_USART_Config(void)
 {
 #if defined (__GNUC__)
   setvbuf(stdout,NULL,_IONBF,0);
-#endif 
+#endif
 
   DEBUG_USART_CLK_ENABLE();
 
@@ -229,8 +229,8 @@ void BSP_USART_Config(void)
   LL_USART_ClearFlag_TC(DEBUG_USART);
 
   /**USART GPIO Configuration
-    PA2     ------> USART1_TX
-    PA3     ------> USART1_RX
+    PA2     ------> USART2_TX
+    PA3     ------> USART2_RX
     */
   DEBUG_USART_RX_GPIO_CLK_ENABLE();
   DEBUG_USART_TX_GPIO_CLK_ENABLE();

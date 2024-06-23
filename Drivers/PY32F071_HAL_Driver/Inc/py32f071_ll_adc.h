@@ -1239,7 +1239,7 @@ typedef struct
   * @param  __ADC_INSTANCE__ ADC instance
   * @param  __CHANNEL__ This parameter can be one of the following values:
   *         @arg @ref LL_ADC_CHANNEL_VREFINT      
-  *         @arg @ref LL_ADC_CHANNEL_TEMPSENSOR   
+  *         @arg @ref LL_ADC_CHANNEL_TEMPSENSOR  
   *         
   * @retval Value "0" if the internal channel selected is not available on the ADC instance selected.
   *         Value "1" if the internal channel selected is available on the ADC instance selected.
