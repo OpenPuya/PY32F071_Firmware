@@ -33,16 +33,14 @@
 #include "py32f071xx_ll_Start_Kit.h"
 
 /* Private define ------------------------------------------------------------*/
-#define RSTPIN_MODE_GPIO
-/* #define RSTPIN_MODE_RST */ 
+/* #define OB_GPIO_PIN_MODE LL_FLASH_NRST_MODE_RESET */
+#define OB_GPIO_PIN_MODE LL_FLASH_NRST_MODE_GPIO
  
 /* Private variables ---------------------------------------------------------*/
-FLASH_OBProgramInitTypeDef OBInitCfg={0};
-
 /* Private user code ---------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
-static void APP_FlashOBProgram(void);
+void APP_SystemClockConfig(void);
 
 /**
   * @brief  Main program.
@@ -51,12 +49,12 @@ static void APP_FlashOBProgram(void);
   */
 int main(void)
 {
+  /* Configure Systemclock */
+  APP_SystemClockConfig();
+  
   /* Enable SYSCFG and PWR clocks */
   LL_APB1_GRP2_EnableClock(LL_APB1_GRP2_PERIPH_SYSCFG);
   LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
-  
-  /* Initialize systick */
-  HAL_Init();
 
   /* Initialize LED */  
   BSP_LED_Init(LED_GREEN);
@@ -70,62 +68,93 @@ int main(void)
   }
 
   /* Judging RST pins */
-#if defined(RSTPIN_MODE_GPIO)
-  if( READ_BIT(FLASH->OPTR, FLASH_OPTR_NRST_MODE) == OB_RESET_MODE_RESET)
-#else
-  if( READ_BIT(FLASH->OPTR, FLASH_OPTR_NRST_MODE) == OB_RESET_MODE_GPIO)
-#endif
+  if(LL_FLASH_GetNrstMode(FLASH) != OB_GPIO_PIN_MODE)
   {
-    /* Write Option */
-    APP_FlashOBProgram();
+    /* Unlock Flash */
+    LL_FLASH_Unlock(FLASH);
+  
+    /* Unlock Option */
+    LL_FLASH_OBUnlock(FLASH);
+
+    LL_FLASH_TIMMING_SEQUENCE_CONFIG_8M();
+
+    /* Wait Busy=0 */
+    while(LL_FLASH_IsActiveFlag_BUSY(FLASH)==1);
+    
+    /* Enable EOP */
+    LL_FLASH_EnableIT_EOP(FLASH);
+
+    LL_FLASH_SetOPTR(FLASH,LL_FLASH_IWDG_INSTOP_ACTIVE,LL_FLASH_NBOOT1_CLR,LL_FLASH_IWDG_MODE_SW, \
+                           LL_FLASH_WWDG_MODE_SW, OB_GPIO_PIN_MODE,LL_FLASH_RDP_LEVEL_0);
+
+    LL_FLASH_EnableOptionProgramStart(FLASH);
+    LL_FLASH_TriggerOptionProgramStart(FLASH);
+
+    /* Wait Busy=0 */
+    while(LL_FLASH_IsActiveFlag_BUSY(FLASH)==1);
+
+    /* Wait EOP=1 */
+    while(LL_FLASH_IsActiveFlag_EOP(FLASH)==0);
+
+    /* Clear EOP Flag */
+    LL_FLASH_ClearFlag_EOP(FLASH);
+
+    /* Disable EOP */
+    LL_FLASH_DisableIT_EOP(FLASH);
+
+    /* Lock Option */
+    LL_FLASH_OBLock(FLASH);
+    
+    /* Lock Flash */
+    LL_FLASH_Lock(FLASH);
+
+    /* Launch */
+    LL_FLASH_Launch(FLASH);
+  }
+  else
+  {
+    BSP_LED_On(LED_GREEN);
   }
   
   while(1)
   {
-#if defined(RSTPIN_MODE_GPIO)
-    if(READ_BIT(FLASH->OPTR, FLASH_OPTR_NRST_MODE)== OB_RESET_MODE_GPIO )
-#else
-    if(READ_BIT(FLASH->OPTR, FLASH_OPTR_NRST_MODE)== OB_RESET_MODE_RESET )
-#endif
-    {
-      BSP_LED_On(LED_GREEN);
-      while(1)
-      {
-      }
-    }
+    
   }
 }
 
 /**
-  * @brief  Write option space function
+  * @brief  Configure Systemclock
   * @param  None
   * @retval None
   */
-static void APP_FlashOBProgram(void)
+void APP_SystemClockConfig(void)
 {
-  HAL_FLASH_Unlock();        /* Unlock FLASH */
-  HAL_FLASH_OB_Unlock();     /* Unlock Option */
-  
-  OBInitCfg.OptionType = OPTIONBYTE_USER;
-  
-  OBInitCfg.USERType =    OB_USER_IWDG_SW | OB_USER_WWDG_SW | OB_USER_NRST_MODE | OB_USER_nBOOT1 | OB_USER_IWDG_STOP;
+  /*  Set FLASH Latency Before modifying the HSI */
+  LL_FLASH_SetLatency(LL_FLASH_LATENCY_0);
 
-#if defined(RSTPIN_MODE_GPIO)
-  /* Software mode watchdog/GPIO function/System memory as startup area/IWDG STOP mode continues counting */
-  OBInitCfg.USERConfig = OB_IWDG_SW | OB_WWDG_SW | OB_RESET_MODE_GPIO | OB_BOOT1_SYSTEM | OB_IWDG_STOP_ACTIVE;
-#else
-  /* Software mode watchdog/RST function/System memory as startup area/IWDG STOP mode continues counting */
-  OBInitCfg.USERConfig = OB_IWDG_SW | OB_WWDG_SW | OB_RESET_MODE_RESET | OB_BOOT1_SYSTEM | OB_IWDG_STOP_ACTIVE;
-#endif
-  
-  /* Start option byte programming */
-  HAL_FLASH_OBProgram(&OBInitCfg);
-  
-  HAL_FLASH_Lock();      /* Lock FLASH */
-  HAL_FLASH_OB_Lock();   /* Lock Option */
+  /* SET HSI to 8MHz */
+  LL_RCC_HSI_SetCalibFreq(LL_RCC_HSICALIBRATION_8MHz);
+  /* Enable HSI */
+  LL_RCC_HSI_Enable();
+  while(LL_RCC_HSI_IsReady() != 1)
+  {
+  }
 
-  /* Generate a reset, option byte loading */
-  HAL_FLASH_OB_Launch();
+  /* Set AHB divider:HCLK = SYSCLK */
+  LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
+
+  /* HSISYS used as SYSCLK clock source */
+  LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_HSISYS);
+  while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_HSISYS)
+  {
+  }
+
+  /* Set APB1 divider */
+  LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_1);
+  LL_Init1msTick(8000000);
+
+  /* Update CMSIS variable (which can be updated also through SystemCoreClockUpdate function) */
+  LL_SetSystemCoreClock(8000000);
 }
 
 /**

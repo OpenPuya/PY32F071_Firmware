@@ -1999,6 +1999,8 @@ HAL_StatusTypeDef HAL_I2C_Slave_Receive_IT(I2C_HandleTypeDef *hi2c, uint8_t *pDa
   */
 HAL_StatusTypeDef HAL_I2C_Master_Transmit_DMA(I2C_HandleTypeDef *hi2c, uint16_t DevAddress, uint8_t *pData, uint16_t Size)
 {
+  /* Init tickstart for timeout management*/
+  uint32_t tickstart = HAL_GetTick();
   __IO uint32_t count = 0U;
   HAL_StatusTypeDef dmaxferstatus;
 
@@ -2068,9 +2070,15 @@ HAL_StatusTypeDef HAL_I2C_Master_Transmit_DMA(I2C_HandleTypeDef *hi2c, uint16_t 
         /* Enable Acknowledge */
         SET_BIT(hi2c->Instance->CR1, I2C_CR1_ACK);
 
-        /* Generate Start */
-        SET_BIT(hi2c->Instance->CR1, I2C_CR1_START);
-       
+        /* Send Slave Address */
+        if (I2C_MasterRequestWrite(hi2c, DevAddress, 1000, tickstart) != HAL_OK)
+        {
+          return HAL_ERROR;
+        }
+
+        /* Clear ADDR flag */
+        __HAL_I2C_CLEAR_ADDRFLAG(hi2c);
+
         /* Process Unlocked */
         __HAL_UNLOCK(hi2c);
 
@@ -2080,8 +2088,6 @@ HAL_StatusTypeDef HAL_I2C_Master_Transmit_DMA(I2C_HandleTypeDef *hi2c, uint16_t 
 
         /* Enable EVT and ERR interrupt */
         __HAL_I2C_ENABLE_IT(hi2c, I2C_IT_EVT | I2C_IT_ERR);
-
-
 
         /* Enable DMA Request */
         SET_BIT(hi2c->Instance->CR2, I2C_CR2_DMAEN);
@@ -2281,7 +2287,8 @@ HAL_StatusTypeDef HAL_I2C_Master_Receive_DMA(I2C_HandleTypeDef *hi2c, uint16_t D
   */
 HAL_StatusTypeDef HAL_I2C_Slave_Transmit_DMA(I2C_HandleTypeDef *hi2c, uint8_t *pData, uint16_t Size)
 {
-
+  /* Init tickstart for timeout management*/
+  uint32_t tickstart = HAL_GetTick();
   HAL_StatusTypeDef dmaxferstatus;
 
   if (hi2c->State == HAL_I2C_STATE_READY)
@@ -2331,6 +2338,27 @@ HAL_StatusTypeDef HAL_I2C_Slave_Transmit_DMA(I2C_HandleTypeDef *hi2c, uint8_t *p
     {
       /* Enable Address Acknowledge */
       SET_BIT(hi2c->Instance->CR1, I2C_CR1_ACK);
+
+      if (I2C_WaitOnFlagUntilTimeout(hi2c, I2C_FLAG_ADDR, RESET, 1000, tickstart) != HAL_OK)
+      {
+        return HAL_ERROR;
+      }
+
+      /* Clear ADDR flag */
+      __HAL_I2C_CLEAR_ADDRFLAG(hi2c);
+
+      /* If 10bit addressing mode is selected */
+      if (hi2c->Init.AddressingMode == I2C_ADDRESSINGMODE_10BIT)
+      {
+        /* Wait until ADDR flag is set */
+        if (I2C_WaitOnFlagUntilTimeout(hi2c, I2C_FLAG_ADDR, RESET, 1000, tickstart) != HAL_OK)
+        {
+          return HAL_ERROR;
+        }
+
+        /* Clear ADDR flag */
+        __HAL_I2C_CLEAR_ADDRFLAG(hi2c);
+      }
 
       /* Process Unlocked */
       __HAL_UNLOCK(hi2c);

@@ -25,7 +25,8 @@ GCC Version: GNU Arm Embedded Toolchain 10.3-2021.10
 1. 编译下载程序到MCU，并运行；
 2. 请将MCU断电并重新上电；
 3. 按下按键，RST键变为GPIO功能，LED亮；
-4. 注释掉"RSTPIN_MODE_GPIO",打开"RSTPIN_MODE_RST",编译重新下载到MCU;
+4. 注释掉"#define OB_GPIO_PIN_MODE LL_FLASH_NRST_MODE_GPIO",
+   打开"#define OB_GPIO_PIN_MODE LL_FLASH_NRST_MODE_RESET",编译重新下载到MCU;
 5. 将MCU断电并重新上电；
 6. 按下按键，RST键变为RESET功能，LED亮；
 
@@ -33,7 +34,8 @@ Example execution steps:
 1. compile and download the program to the MCU and run it;
 2. power off and re-power the MCU;
 3. Press the button,the RST key changes to GPIO function and the LED lights up;
-4. Comment out "RSTPIN_MODE_GPIO" and turn on "RSTPIN_MODE_RST".
+4. Comment out "#define OB_GPIO_PIN_MODE LL_FLASH_NRST_MODE_GPIO" and turn
+   on "#define OB_GPIO_PIN_MODE LL_FLASH_NRST_MODE_RESET".
 Compile and re-download to MCU.
 5. power off and re-power the MCU;
 6. Press the button,the RST key changes to RESET function and the LED lights up;

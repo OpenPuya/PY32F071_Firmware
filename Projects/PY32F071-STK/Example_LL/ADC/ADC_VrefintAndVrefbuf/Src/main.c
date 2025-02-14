@@ -104,8 +104,8 @@ static void APP_AdcConfig()
   /* Set internal mode to Vrefint */
   LL_ADC_SetCommonPathInternalCh(__LL_ADC_COMMON_INSTANCE(ADC1), LL_ADC_PATH_INTERNAL_VREFINT);
   
-  /* Set Vrefbuf 2.048V */
-  LL_ADC_SetVrefBufferVoltage(ADC1,LL_ADC_VREFBUF_2P048V);
+  /* Set Vrefbuf 2.14V */
+  LL_ADC_SetVrefBufferVoltage(ADC1,LL_ADC_VREFBUF_2P14V);
   
   /* Enable Vrefbuf */
   LL_ADC_EnableVrefBufferVoltage(ADC1);

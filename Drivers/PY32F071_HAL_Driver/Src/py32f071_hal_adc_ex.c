@@ -182,27 +182,27 @@ HAL_StatusTypeDef HAL_ADCEx_Calibration_Start(ADC_HandleTypeDef* hadc)
       return HAL_ERROR;
     }
     
-    /* 3. Resets ADC calibration registers */  
-    SET_BIT(hadc->Instance->CR2, ADC_CR2_RSTCAL);
-    
-    tickstart = HAL_GetTick();  
+//    /* 3. Resets ADC calibration registers */  
+//    SET_BIT(hadc->Instance->CR2, ADC_CR2_RSTCAL);
+//    
+//    tickstart = HAL_GetTick();  
 
-    /* Wait for calibration reset completion */
-    while(HAL_IS_BIT_SET(hadc->Instance->CR2, ADC_CR2_RSTCAL))
-    {
-      if((HAL_GetTick() - tickstart) > ADC_CALIBRATION_TIMEOUT)
-      {
-        /* Update ADC state machine to error */
-        ADC_STATE_CLR_SET(hadc->State,
-                          HAL_ADC_STATE_BUSY_INTERNAL,
-                          HAL_ADC_STATE_ERROR_INTERNAL);
-        
-        /* Process unlocked */
-        __HAL_UNLOCK(hadc);
-        
-        return HAL_ERROR;
-      }
-    }
+//    /* Wait for calibration reset completion */
+//    while(HAL_IS_BIT_SET(hadc->Instance->CR2, ADC_CR2_RSTCAL))
+//    {
+//      if((HAL_GetTick() - tickstart) > ADC_CALIBRATION_TIMEOUT)
+//      {
+//        /* Update ADC state machine to error */
+//        ADC_STATE_CLR_SET(hadc->State,
+//                          HAL_ADC_STATE_BUSY_INTERNAL,
+//                          HAL_ADC_STATE_ERROR_INTERNAL);
+//        
+//        /* Process unlocked */
+//        __HAL_UNLOCK(hadc);
+//        
+//        return HAL_ERROR;
+//      }
+//    }
     
     
     /* 4. Start ADC calibration */
@@ -311,27 +311,27 @@ HAL_StatusTypeDef HAL_ADCEx_Calibration_SetAndStart(ADC_HandleTypeDef* hadc,uint
       return HAL_ERROR;
     }
     
-    /* 3. Resets ADC calibration registers */  
-    SET_BIT(hadc->Instance->CR2, ADC_CR2_RSTCAL);
-    
-    tickstart = HAL_GetTick();  
+//    /* 3. Resets ADC calibration registers */  
+//    SET_BIT(hadc->Instance->CR2, ADC_CR2_RSTCAL);
+//    
+//    tickstart = HAL_GetTick();  
 
-    /* Wait for calibration reset completion */
-    while(HAL_IS_BIT_SET(hadc->Instance->CR2, ADC_CR2_RSTCAL))
-    {
-      if((HAL_GetTick() - tickstart) > ADC_CALIBRATION_TIMEOUT)
-      {
-        /* Update ADC state machine to error */
-        ADC_STATE_CLR_SET(hadc->State,
-                          HAL_ADC_STATE_BUSY_INTERNAL,
-                          HAL_ADC_STATE_ERROR_INTERNAL);
-        
-        /* Process unlocked */
-        __HAL_UNLOCK(hadc);
-        
-        return HAL_ERROR;
-      }
-    }
+//    /* Wait for calibration reset completion */
+//    while(HAL_IS_BIT_SET(hadc->Instance->CR2, ADC_CR2_RSTCAL))
+//    {
+//      if((HAL_GetTick() - tickstart) > ADC_CALIBRATION_TIMEOUT)
+//      {
+//        /* Update ADC state machine to error */
+//        ADC_STATE_CLR_SET(hadc->State,
+//                          HAL_ADC_STATE_BUSY_INTERNAL,
+//                          HAL_ADC_STATE_ERROR_INTERNAL);
+//        
+//        /* Process unlocked */
+//        __HAL_UNLOCK(hadc);
+//        
+//        return HAL_ERROR;
+//      }
+//    }
         
     hadc->Instance->CCSR &= ~( ADC_CCSR_CALSMP | ADC_CCSR_CALSEL  );
     hadc->Instance->CCSR |= ( CalibSamplingTime | CalibSelection );

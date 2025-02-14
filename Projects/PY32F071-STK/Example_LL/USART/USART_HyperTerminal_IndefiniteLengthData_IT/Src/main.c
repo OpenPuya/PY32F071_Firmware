@@ -34,25 +34,14 @@
 
 /* Private define ------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-uint8_t RxBuf[RX_MAX_LEN] = {0}; /* Receive buffer */
-uint32_t RxLen = 0;     /* Single frame data, actual received data length */
-__IO uint32_t CheckFlag = 0; /* After the hardware detects an idle frame, the
-                                "End of single frame data reception" check flag */
-__IO uint32_t CheckLen = 0;  /* Used to determine whether new data has arrived within
-                                the timeout period */
-__IO uint32_t timeout = RX_TIMEOUT; /* Used for timeout judgment */
-
-uint8_t *TxBuff = NULL;
-__IO uint16_t TxSize = 0;
-__IO uint16_t TxCount = 0;
+uint8_t  aRxBuffer[RX_MAX_LEN] = {0};
+uint32_t cRxIndex = 0;
 
 /* Private user code ---------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
 static void APP_SystemClockConfig(void);
 static void APP_ConfigUsart(void);
-static void APP_UartRxTimeOut(void);
-static void APP_UsartTransmit(USART_TypeDef *USARTx, uint8_t *pData, uint16_t Size);
 
 /**
   * @brief  Main program
@@ -66,17 +55,13 @@ int main(void)
 
   /* Configure USART2 */
   APP_ConfigUsart();
-  
-  /* Enable idle frame interrupt */
-  LL_USART_EnableIT_IDLE(USART2);
-  
+
   /* Enable RX Not Empty Interrupt */
   LL_USART_EnableIT_RXNE(USART2);
 
   while (1)
   {
-    /* Uart receive timeout check */
-    APP_UartRxTimeOut();
+
   }
 }
 
@@ -154,7 +139,7 @@ static void APP_ConfigUsart(void)
   /* Set USART feature */
   LL_USART_InitTypeDef USART_InitStruct = {0};
   /* Set baud rate */
-  USART_InitStruct.BaudRate = 9600;
+  USART_InitStruct.BaudRate = 115200;
   /* set word length to 8 bits: Start bit, 8 data bits, n stop bits */
   USART_InitStruct.DataWidth = LL_USART_DATAWIDTH_8B;
   /* 1 stop bit */
@@ -172,68 +157,6 @@ static void APP_ConfigUsart(void)
   
   /*Enable USART */
   LL_USART_Enable(USART2);
-}
-
-/**
-  * @brief  Uart receive timeout check.
-  * @param  None.
-  * @retval None
-  */
-static void APP_UartRxTimeOut(void)
-{
-  /* Received an idle frame and turned on the check to see
-     if "single frame data reception ended" */
-  if (CheckFlag == 1)
-  {
-    /* If the 'timeout time' is exceeded,
-       it is considered that receiving one frame of data has ended */
-    if (LL_SYSTICK_IsActiveCounterFlag() != 0U)
-    {
-      timeout --;
-    }
-    if (timeout == 0U)
-    {
-      /* Send back received data */      
-      APP_UsartTransmit(USART2, (uint8_t *)&RxBuf, RxLen);
-      
-      /* Enable next data reception */
-      CheckFlag = 0;
-      RxLen = 0;
-    }
-    
-    /* Received new data, continue receiving data */
-    if (CheckLen != RxLen)
-    {
-      CheckFlag = 0;
-    }
-  }
-}
-
-/**
-  * @brief  USART transmission function
-  * @param  USARTx：USART Instance，This parameter can be one of the following values:USART1、USART2
-  * @param  pData：Pointer to transmission buffer
-  * @param  Size：Size of transmission buffer
-  * @retval None
-  */
-static void APP_UsartTransmit(USART_TypeDef *USARTx, uint8_t *pData, uint16_t Size)
-{
-  TxBuff = pData;
-  TxCount = Size;
-  
-  /* transmit data */
-  while (TxCount > 0)
-  {
-    /* Wait for TXE bit to be set */
-    while(LL_USART_IsActiveFlag_TXE(USARTx) != 1);
-    /* transmit data */
-    LL_USART_TransmitData8(USARTx, *TxBuff);
-    TxBuff++;
-    TxCount--;
-  }
-  
-  /* Wait for TC bit to be set */
-  while(LL_USART_IsActiveFlag_TC(USARTx) != 1);
 }
 
 /**

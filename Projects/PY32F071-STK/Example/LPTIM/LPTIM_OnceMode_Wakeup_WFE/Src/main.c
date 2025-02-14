@@ -38,6 +38,7 @@
 LPTIM_HandleTypeDef       LPTIMConf = {0};
 EXTI_HandleTypeDef        ExtiHandle;
 __IO uint32_t RatioNops = 0;
+PWR_StopModeConfigTypeDef PwrStopModeConf = {0};
 
 /* Private user code ---------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
@@ -96,7 +97,7 @@ int main(void)
 
   /* Turn off LED */
   BSP_LED_Off(LED_GREEN);
-  
+
   /* Calculate the value required for a delay of macro-defined(Delay) */
   RatioNops = Delay * (SystemCoreClock / 1000000U) / 4;
 
@@ -113,7 +114,13 @@ int main(void)
 
     /* Suspend SysTick interrupt */
     HAL_SuspendTick();
-    
+
+    /* VCORE = 0.8V  when enter stop mode */
+    PwrStopModeConf.LPVoltSelection     =  PWR_STOPMOD_LPR_VOLT_0P8V;
+    PwrStopModeConf.FlashDelay          =  PWR_WAKEUP_HSIEN_AFTER_MR;
+    PwrStopModeConf.WakeUpHsiEnableTime =  PWR_WAKEUP_FLASH_DELAY_1US;
+    HAL_PWR_ConfigStopMode(&PwrStopModeConf);
+
     /* Enter Stop Mode and Wakeup by WFE */
     HAL_PWR_EnterSTOPMode(PWR_LOWPOWERREGULATOR_ON, PWR_STOPENTRY_WFE); 
 

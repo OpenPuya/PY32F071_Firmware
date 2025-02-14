@@ -281,7 +281,7 @@ ErrorStatus LL_USART_Init(USART_TypeDef *USARTx, LL_USART_InitTypeDef *USART_Ini
       /* Check BRR is greater than or equal to 16d */
       assert_param(IS_LL_USART_BRR_MIN(USARTx->BRR));
 
-      /* Check BRR is greater than or equal to 16d */
+      /* Check BRR is lower than or equal to 0xFFFF */
       assert_param(IS_LL_USART_BRR_MAX(USARTx->BRR));
     }
   }

@@ -356,9 +356,12 @@ typedef  void (*pADC_CallbackTypeDef)(ADC_HandleTypeDef *hadc); /*!< pointer to 
   * @{
   */
 #define ADC_VREFBUF_VCCA                   0x00000000U                                                              /*!< ADC Vref VCCA */
-#define ADC_VREFBUF_1P5V      ((uint32_t)(ADC_CR2_VREFBUFFERE                                                    )) /*!< ADC Vref 1.5V */
 #define ADC_VREFBUF_2P048V    ((uint32_t)(ADC_CR2_VREFBUFFERE                           | ADC_CR2_VREFBUFFERSEL_0)) /*!< ADC Vref 2.048V */
 #define ADC_VREFBUF_2P5V      ((uint32_t)(ADC_CR2_VREFBUFFERE | ADC_CR2_VREFBUFFERSEL_1                          )) /*!< ADC Vref 2.5V */
+
+#define ADC_VREFBUF_2P14V    ADC_VREFBUF_2P048V  /*!< ADC Vref 2.14V */
+#define ADC_VREFBUF_2P66V    ADC_VREFBUF_2P5V    /*!< ADC Vref 2.66V */
+
 /**
   * @}
   */
@@ -926,9 +929,8 @@ typedef  void (*pADC_CallbackTypeDef)(ADC_HandleTypeDef *hadc); /*!< pointer to 
                                   ((TIME) == ADC_SAMPLETIME_239CYCLES_5)   )
                                   
 #define IS_ADC_VREFBUF(VREFBUF) (((VREFBUF) == ADC_VREFBUF_VCCA)    || \
-                                 ((VREFBUF) == ADC_VREFBUF_1P5V)    || \
-                                 ((VREFBUF) == ADC_VREFBUF_2P048V)  || \
-                                 ((VREFBUF) == ADC_VREFBUF_2P5V)   )
+                                 ((VREFBUF) == ADC_VREFBUF_2P14V)  || \
+                                 ((VREFBUF) == ADC_VREFBUF_2P66V)   )
 
 #define IS_ADC_REGULAR_RANK(CHANNEL) (((CHANNEL) == ADC_REGULAR_RANK_1 ) || \
                                       ((CHANNEL) == ADC_REGULAR_RANK_2 ) || \

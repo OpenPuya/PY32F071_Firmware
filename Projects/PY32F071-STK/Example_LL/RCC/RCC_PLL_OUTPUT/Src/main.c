@@ -72,7 +72,11 @@ static void APP_SystemClockConfig(void)
   while(LL_RCC_HSI_IsReady() != 1)
   {
   }
-  
+  /* Configure HSISYS as system clock */
+  LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_HSISYS);
+  while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_HSISYS)
+  {
+  }
   /* PLL multiplication factor of 2 using HSI (16MHz) */
   LL_RCC_PLL_Disable();
   while(LL_RCC_PLL_IsReady() != 0)

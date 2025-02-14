@@ -685,7 +685,7 @@ HAL_StatusTypeDef HAL_ADC_DeInit(ADC_HandleTypeDef* hadc)
     CLEAR_BIT(hadc->Instance->CR2, (ADC_CR2_VREFBUFFERE | ADC_CR2_VREFBUFFERSEL | ADC_CR2_TSVREFE | ADC_CR2_SWSTART | ADC_CR2_JSWSTART | 
                                     ADC_CR2_EXTTRIG | ADC_CR2_EXTSEL  | ADC_CR2_JEXTTRIG |  
                                     ADC_CR2_JEXTSEL | ADC_CR2_ALIGN   | ADC_CR2_DMA      |        
-                                    ADC_CR2_RSTCAL  | ADC_CR2_CAL     | ADC_CR2_CONT     |          
+                                    /*ADC_CR2_RSTCAL  | */  ADC_CR2_CAL     | ADC_CR2_CONT     |          
                                     ADC_CR2_ADON                                          ));
 #else
     CLEAR_BIT(hadc->Instance->CR2, (ADC_CR2_TSVREFE | ADC_CR2_SWSTART | ADC_CR2_JSWSTART | 
@@ -2144,9 +2144,8 @@ HAL_StatusTypeDef HAL_ADC_ConfigChannel(ADC_HandleTypeDef* hadc, ADC_ChannelConf
   * @param  VrefBuf Vref Buffer Voltage
   *         This parameter can be one of the following values:
   *            @arg ADC_VREFBUF_VCCA
-  *            @arg ADC_VREFBUF_1P5V
-  *            @arg ADC_VREFBUF_2P048V
-  *            @arg ADC_VREFBUF_2P5V
+  *            @arg ADC_VREFBUF_2P14V
+  *            @arg ADC_VREFBUF_2P66V
   * @retval HAL status
   */
 HAL_StatusTypeDef HAL_ADC_ConfigVrefBuf(ADC_HandleTypeDef* hadc, uint32_t VrefBuf)

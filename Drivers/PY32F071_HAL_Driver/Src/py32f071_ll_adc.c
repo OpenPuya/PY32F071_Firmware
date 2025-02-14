@@ -333,7 +333,7 @@ ErrorStatus LL_ADC_DeInit(ADC_TypeDef *ADCx)
                | ADC_CR2_SWSTART  | ADC_CR2_EXTTRIG  | ADC_CR2_EXTSEL
                | ADC_CR2_JSWSTART | ADC_CR2_JEXTTRIG | ADC_CR2_JEXTSEL
                | ADC_CR2_ALIGN    | ADC_CR2_DMA
-               | ADC_CR2_RSTCAL   | ADC_CR2_CAL
+               /* | ADC_CR2_RSTCAL  */  | ADC_CR2_CAL
                | ADC_CR2_CONT     | ADC_CR2_ADON                      )
              );
 #else

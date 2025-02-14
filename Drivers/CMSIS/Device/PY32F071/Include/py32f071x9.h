@@ -822,9 +822,9 @@ typedef struct
 #define ADC_CR2_CAL_Pos                           (2U)
 #define ADC_CR2_CAL_Msk                           (0x1UL << ADC_CR2_CAL_Pos)                        /*!< 0x00000004 */
 #define ADC_CR2_CAL                               ADC_CR2_CAL_Msk                                   /*!< desc CAL */
-#define ADC_CR2_RSTCAL_Pos                        (3U)
-#define ADC_CR2_RSTCAL_Msk                        (0x1UL << ADC_CR2_RSTCAL_Pos)                     /*!< 0x00000008 */
-#define ADC_CR2_RSTCAL                            ADC_CR2_RSTCAL_Msk
+//#define ADC_CR2_RSTCAL_Pos                        (3U)
+//#define ADC_CR2_RSTCAL_Msk                        (0x1UL << ADC_CR2_RSTCAL_Pos)                     /*!< 0x00000008 */
+//#define ADC_CR2_RSTCAL                            ADC_CR2_RSTCAL_Msk
 #define ADC_CR2_DMA_Pos                           (8U)
 #define ADC_CR2_DMA_Msk                           (0x1UL << ADC_CR2_DMA_Pos)                        /*!< 0x00000100 */
 #define ADC_CR2_DMA                               ADC_CR2_DMA_Msk

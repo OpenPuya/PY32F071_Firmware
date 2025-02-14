@@ -113,7 +113,12 @@ static void APP_SystemClockConfig(void)
   {
   }
   LL_APB1_GRP1_DisableClock(LL_APB1_GRP1_PERIPH_PWR);
-  
+
+  /* Configure HSISYS as system clock */
+  LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_HSISYS);
+  while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_HSISYS)
+  {
+  }  
   /* PLL for HSI (16MHz) 3rd harmonic */
   LL_RCC_PLL_Disable();
   while(LL_RCC_PLL_IsReady() != 0)
@@ -129,7 +134,7 @@ static void APP_SystemClockConfig(void)
   /* Set AHB frequency division*/
   LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
 
-  /* Configure HSISYS as the system clock source */
+  /* Configure HSE as the system clock source */
   LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_HSE);
   while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_HSE)
   {

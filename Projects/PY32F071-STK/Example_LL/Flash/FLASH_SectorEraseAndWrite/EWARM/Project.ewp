@@ -1085,15 +1085,6 @@
             <file>
                 <name>$PROJ_DIR$\..\..\..\..\..\..\Drivers\PY32F071_HAL_Driver\Src\py32f071_ll_utils.c</name>
             </file>
-            <file>
-                <name>$PROJ_DIR$\..\..\..\..\..\..\Drivers\PY32F071_HAL_Driver\Src\py32f071_hal.c</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\..\..\..\..\..\..\Drivers\PY32F071_HAL_Driver\Src\py32f071_hal_flash.c</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\..\..\..\..\..\..\Drivers\PY32F071_HAL_Driver\Src\py32f071_hal_cortex.c</name>
-            </file>
         </group>
     </group>
     <group>
@@ -1107,10 +1098,10 @@
         <group>
             <name>User</name>
             <file>
-                <name>$PROJ_DIR$\..\Src\main.c </name>
+                <name>$PROJ_DIR$\..\Src\main.c</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\..\Src\py32f071_it.c </name>
+                <name>$PROJ_DIR$\..\Src\py32f071_it.c</name>
             </file>
         </group>
     </group>

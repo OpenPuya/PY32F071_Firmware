@@ -43,17 +43,12 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* Private defines -----------------------------------------------------------*/
-#define RX_MAX_LEN 200     /* Single frame data, maximum received data length */
-#define RX_TIMEOUT 2       /* Single frame data, receiving timeout time (ms) 
-                              after hardware detects idle frames */
+#define RX_MAX_LEN 128     /* Single frame data, maximum received data length */
 
 /* Exported variables prototypes ---------------------------------------------*/
 extern UART_HandleTypeDef UartHandle;
-extern uint8_t RxBuf[RX_MAX_LEN];
-extern uint32_t RxLen;
-extern __IO uint32_t CheckFlag;
-extern __IO uint32_t CheckLen;
-extern __IO uint32_t TickStart;
+extern uint8_t aRxBuffer[RX_MAX_LEN];
+extern uint32_t cRxIndex;
 
 /* Exported functions prototypes ---------------------------------------------*/
 void APP_ErrorHandler(void);

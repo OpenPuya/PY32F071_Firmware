@@ -243,9 +243,13 @@ typedef  void (*pCOMP_CallbackTypeDef)(COMP_HandleTypeDef *hcomp); /*!< pointer 
   */
 
 #define COMP_VREF_SRC_VCCA          (0x00000000)
-#define COMP_VREF_SRC_VREFBUF1P5V   (ADC_CR2_VREFBUFFERE | 0x80000000)
 #define COMP_VREF_SRC_VREFBUF2P048V (ADC_CR2_VREFBUFFERE | ADC_CR2_VREFBUFFERSEL_0 | 0x80000000)
 #define COMP_VREF_SRC_VREFBUF2P5V   (ADC_CR2_VREFBUFFERE | ADC_CR2_VREFBUFFERSEL_1 | 0x80000000)
+
+#define COMP_VREF_SRC_VREFBUF2P14V   COMP_VREF_SRC_VREFBUF2P048V
+#define COMP_VREF_SRC_VREFBUF2P66V   COMP_VREF_SRC_VREFBUF2P5V
+
+
 /**
   * @}
   */
@@ -500,32 +504,6 @@ typedef  void (*pCOMP_CallbackTypeDef)(COMP_HandleTypeDef *hcomp); /*!< pointer 
   */
 #define __HAL_COMP_COMP1_EXTI_DISABLE_EVENT()         LL_EXTI_DisableEvent(COMP_EXTI_LINE_COMP1)
 
-/**
-  * @brief  Check whether the COMP1 EXTI line rising flag is set.
-  * @retval RESET or SET
-  */
-#define __HAL_COMP_COMP1_EXTI_GET_RISING_FLAG()       LL_EXTI_IsActiveRisingFlag(COMP_EXTI_LINE_COMP1)
-
-/**
-  * @brief  Clear the COMP1 EXTI rising flag.
-  * @retval None
-  */
-#define __HAL_COMP_COMP1_EXTI_CLEAR_RISING_FLAG()     LL_EXTI_ClearRisingFlag(COMP_EXTI_LINE_COMP1)
-
-/**
-  * @brief  Check whether the COMP1 EXTI line falling flag is set.
-  * @retval RESET or SET
-  */
-#define __HAL_COMP_COMP1_EXTI_GET_FALLING_FLAG()      LL_EXTI_IsActiveFallingFlag(COMP_EXTI_LINE_COMP1)
-
-/**
-  * @brief  Clear the COMP1 EXTI falling flag.
-  * @retval None
-  */
-#define __HAL_COMP_COMP1_EXTI_CLEAR_FALLING_FLAG()    LL_EXTI_ClearFallingFlag(COMP_EXTI_LINE_COMP1)
-
-
-
 
 /**
   * @brief  Enable the COMP2 EXTI line rising edge trigger.
@@ -598,30 +576,6 @@ typedef  void (*pCOMP_CallbackTypeDef)(COMP_HandleTypeDef *hcomp); /*!< pointer 
   * @retval None
   */
 #define __HAL_COMP_COMP2_EXTI_DISABLE_EVENT()         LL_EXTI_DisableEvent(COMP_EXTI_LINE_COMP2)
-
-/**
-  * @brief  Check whether the COMP2 EXTI line rising flag is set.
-  * @retval RESET or SET
-  */
-#define __HAL_COMP_COMP2_EXTI_GET_RISING_FLAG()       LL_EXTI_IsActiveRisingFlag(COMP_EXTI_LINE_COMP2)
-
-/**
-  * @brief  Clear the COMP2 EXTI rising flag.
-  * @retval None
-  */
-#define __HAL_COMP_COMP2_EXTI_CLEAR_RISING_FLAG()     LL_EXTI_ClearRisingFlag(COMP_EXTI_LINE_COMP2)
-
-/**
-  * @brief  Check whether the COMP2 EXTI line falling flag is set.
-  * @retval RESET or SET
-  */
-#define __HAL_COMP_COMP2_EXTI_GET_FALLING_FLAG()      LL_EXTI_IsActiveFallingFlag(COMP_EXTI_LINE_COMP2)
-
-/**
-  * @brief  Clear the COMP2 EXTI falling flag.
-  * @retval None
-  */
-#define __HAL_COMP_COMP2_EXTI_CLEAR_FALLING_FLAG()    LL_EXTI_ClearFallingFlag(COMP_EXTI_LINE_COMP2)
 
 
 #if defined(COMP3)
@@ -697,29 +651,6 @@ typedef  void (*pCOMP_CallbackTypeDef)(COMP_HandleTypeDef *hcomp); /*!< pointer 
   */
 #define __HAL_COMP_COMP3_EXTI_DISABLE_EVENT()         LL_EXTI_DisableEvent(COMP_EXTI_LINE_COMP3)
 
-/**
-  * @brief  Check whether the COMP3 EXTI line rising flag is set.
-  * @retval RESET or SET
-  */
-#define __HAL_COMP_COMP3_EXTI_GET_RISING_FLAG()       LL_EXTI_IsActiveRisingFlag(COMP_EXTI_LINE_COMP3)
-
-/**
-  * @brief  Clear the COMP3 EXTI rising flag.
-  * @retval None
-  */
-#define __HAL_COMP_COMP3_EXTI_CLEAR_RISING_FLAG()     LL_EXTI_ClearRisingFlag(COMP_EXTI_LINE_COMP3)
-
-/**
-  * @brief  Check whether the COMP3 EXTI line falling flag is set.
-  * @retval RESET or SET
-  */
-#define __HAL_COMP_COMP3_EXTI_GET_FALLING_FLAG()      LL_EXTI_IsActiveFallingFlag(COMP_EXTI_LINE_COMP3)
-
-/**
-  * @brief  Clear the COMP3 EXTI falling flag.
-  * @retval None
-  */
-#define __HAL_COMP_COMP3_EXTI_CLEAR_FALLING_FLAG()    LL_EXTI_ClearFallingFlag(COMP_EXTI_LINE_COMP3)
 #endif /* COMP3 */
 
 /**
@@ -851,9 +782,8 @@ typedef  void (*pCOMP_CallbackTypeDef)(COMP_HandleTypeDef *hcomp); /*!< pointer 
 
 
 #define IS_COMP_VREFSRC(__VREF__)           (((__VREF__) == COMP_VREF_SRC_VCCA)   || \
-                                             ((__VREF__) == COMP_VREF_SRC_VREFBUF1P5V)   || \
-                                             ((__VREF__) == COMP_VREF_SRC_VREFBUF2P048V)   || \
-                                             ((__VREF__) == COMP_VREF_SRC_VREFBUF2P5V))
+                                             ((__VREF__) == COMP_VREF_SRC_VREFBUF2P14V)   || \
+                                             ((__VREF__) == COMP_VREF_SRC_VREFBUF2P66V))
 
 
 #define IS_COMP_VREFDIV(__VREF__)           (((__VREF__) == COMP_VREF_DIV_DISABLE)   || \

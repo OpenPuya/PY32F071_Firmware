@@ -115,8 +115,8 @@ static void APP_AdcConfig()
     APP_ErrorHandler();
   }
   
-  /* Configure VrefBuf 2.048V */
-  HAL_ADC_ConfigVrefBuf(&AdcHandle,ADC_VREFBUF_2P048V);
+  /* Configure VrefBuf 2.14V */
+  HAL_ADC_ConfigVrefBuf(&AdcHandle,ADC_VREFBUF_2P14V);
  
   sConfig.Channel      = ADC_CHANNEL_VREFINT;
   sConfig.Rank         = ADC_REGULAR_RANK_1;

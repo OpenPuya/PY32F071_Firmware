@@ -243,6 +243,9 @@ static void APP_EnterStop(void)
 {
   /* Enable PWR clock */
   LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
+
+  /* VCORE = 0.8V when enter stop mode */
+  LL_PWR_SetRegulVoltageScaling(LL_PWR_REGU_VOLTAGE_0P8V);
   
   /* Enable Low Power Run mode */
   LL_PWR_EnableLowPowerRunMode();

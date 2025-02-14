@@ -72,15 +72,15 @@ static void APP_FlashVerify(void);
   */
 int main(void)
 {
+  /* Configure System Clock */
+  APP_SystemClockConfig();
+  
   /* Enable SYSCFG and PWR clocks */
   LL_APB1_GRP2_EnableClock(LL_APB1_GRP2_PERIPH_SYSCFG);
   LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
 
-  /* Configure System Clock */
-  APP_SystemClockConfig();
-  
-  /* Initialize systick */
-  HAL_Init();
+  /* Initialize LED */
+  BSP_LED_Init(LED_GREEN);
 
   /* Initialization button */
   BSP_PB_Init(BUTTON_USER, BUTTON_MODE_GPIO);
@@ -90,11 +90,10 @@ int main(void)
   {
   }
 
-  /* Initialize LED */
-  BSP_LED_Init(LED_GREEN);
-
   /* Unlock FLASH */
-  HAL_FLASH_Unlock();
+  LL_FLASH_Unlock(FLASH);
+
+  LL_FLASH_TIMMING_SEQUENCE_CONFIG_8M();
 
   /* Erase FLASH */
   APP_FlashErase();
@@ -106,7 +105,7 @@ int main(void)
   APP_FlashProgram();
 
   /* Lock FLASH */
-  HAL_FLASH_Lock();
+  LL_FLASH_Lock(FLASH);
 
   /* Verify FLASH */
   APP_FlashVerify();
@@ -124,16 +123,32 @@ int main(void)
   */
 static void APP_FlashErase(void)
 {
-  uint32_t SECTORError = 0;
-  FLASH_EraseInitTypeDef EraseInitStruct = {0};
+  /* Wait Busy=0 */
+  while(LL_FLASH_IsActiveFlag_BUSY(FLASH)==1);
 
-  EraseInitStruct.TypeErase   = FLASH_TYPEERASE_SECTORERASE;      /* Erase type FLASH_TYPEERASE_PAGEERASE=Page erase, FLASH_TYPEERASE_SECTORERASE=Sector Erase */
-  EraseInitStruct.SectorAddress = FLASH_USER_START_ADDR;          /* Erase Start Address  */
-  EraseInitStruct.NbSectors  = 1;                                 /* Number of sectors that need to be erased  */
-  if (HAL_FLASHEx_Erase(&EraseInitStruct, &SECTORError) != HAL_OK)/* Executing sector erase, SECTORError returns the sector with an erase error and 0xFFFFFFFF, indicating successful erase  */
-  {
-    APP_ErrorHandler();
-  }
+  /* Enable EOP */
+  LL_FLASH_EnableIT_EOP(FLASH);
+
+  /* Enable Sector Erase */
+  LL_FLASH_EnableSectorErase(FLASH);
+
+  /* Set Erase Address */
+  LL_FLASH_SetEraseAddress(FLASH,FLASH_USER_START_ADDR);
+
+  /* Wait Busy=0 */
+  while(LL_FLASH_IsActiveFlag_BUSY(FLASH)==1);
+
+  /* Wait EOP=1 */
+  while(LL_FLASH_IsActiveFlag_EOP(FLASH)==0);
+
+  /* Clear EOP */
+  LL_FLASH_ClearFlag_EOP(FLASH);
+
+  /* Disable EOP */
+  LL_FLASH_DisableIT_EOP(FLASH);
+
+  /* Disable Sector Erase */
+  LL_FLASH_DisableSectorErase(FLASH);
 }
 
 /**
@@ -143,17 +158,40 @@ static void APP_FlashErase(void)
   */
 static void APP_FlashProgram(void)
 {
-  uint32_t flash_program_start = FLASH_USER_START_ADDR ;                /* Flash Write Start Address */
-  uint32_t flash_program_end = (FLASH_USER_START_ADDR + sizeof(DATA));  /* Flash Write End Address */
-  uint32_t *src = (uint32_t *)DATA;                                     /* Array Pointer */
+  uint32_t flash_program_start = FLASH_USER_START_ADDR ;                       /* Start address of user write flash */
+  uint32_t flash_program_end = (FLASH_USER_START_ADDR + sizeof(DATA));         /* End address of user write flash */
+  uint32_t *src = (uint32_t *)DATA;                                            /* Pointer to array */
 
   while (flash_program_start < flash_program_end)
   {
-    if (HAL_FLASH_Program(FLASH_TYPEPROGRAM_PAGE, flash_program_start, src) == HAL_OK)/* Execute Program */
-    {
-      flash_program_start += FLASH_PAGE_SIZE; /* The flash start pointer points to the first page */
-      src += FLASH_PAGE_SIZE / 4;             /* Update data pointer */
-    }
+    /* Wait Busy=0 */
+    while(LL_FLASH_IsActiveFlag_BUSY(FLASH)==1);
+    
+    /* Enable EOP */
+    LL_FLASH_EnableIT_EOP(FLASH);
+
+    /* Enable Program */
+    LL_FLASH_EnablePageProgram(FLASH);
+
+    /* Page Program */
+    LL_FLASH_PageProgram(FLASH,flash_program_start,src);
+    
+    /* Wait Busy=0 */
+    while(LL_FLASH_IsActiveFlag_BUSY(FLASH)==1);
+    
+    /* Wait EOP=1 */
+    while(LL_FLASH_IsActiveFlag_EOP(FLASH)==0);
+    
+    /* Clear EOP */
+    LL_FLASH_ClearFlag_EOP(FLASH);
+   
+    /* Disable EOP */
+    LL_FLASH_DisableIT_EOP(FLASH);
+
+    /* Disable Program */
+    LL_FLASH_DisablePageProgram(FLASH);
+    flash_program_start += FLASH_PAGE_SIZE;                                           /* Point to the start address of the next page to be written */
+    src += FLASH_PAGE_SIZE / 4;                                                       /* Point to the next data to be written */
   }
 }
 

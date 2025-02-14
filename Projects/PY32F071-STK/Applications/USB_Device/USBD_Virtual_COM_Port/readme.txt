@@ -55,6 +55,10 @@ debug mode to verify that the received data matches the data sent from the PC.
 ep_tx_busy_flag标志位）。如果热插拔过程中导致USB通信失败一次，则设备将停止向主机
 发送数据。为了解决这个问题，您可以取消程序中对ep_tx_busy_flag标志位的检查，从而
 实现热插拔不影响串口助手的数据接收。
+2. 在WIN7环境下，可能需要手动添加配置文件pycdc.inf。步骤如下：
+(1)打开设备管理器，选中设备，右键属性，选择更新驱动程序
+(2)点击：浏览计算机以查找驱动程序软件->从计算器的设备驱动库列表中选择->从磁盘安
+装->浏览(选择pycdc.inf)->确定->下一步->始终安装此驱动程序
 
 Notes:
 1. During user testing, if the USB interface is hot-plugged, it is possible 
@@ -65,4 +69,12 @@ sending new data. If there is a USB communication failure during the hot-plug
 process, the device will stop sending data to the host. To address this issue, 
 you can remove the check for the ep_tx_busy_flag in the program, allowing the 
 serial terminal program to receive data even after hot-plugging.
+2. Under the WIN7 environment, you may need to manually add the configuration 
+file pycdc.inf. The steps are as follows:
+(1) Open Device Manager, select the device, right-click on it and choose 
+"Properties", then select "Update Driver"
+(2) Click: "Browse my computer for driver software" -> "Let me pick from a list 
+of available drivers on my computer" -> "Have Disk" -> 
+"Browse" (to select "pycdc.inf") -> "OK" -> "Next" -> 
+"Install this driver software anyway"
 ================================================================================

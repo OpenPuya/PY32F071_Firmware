@@ -243,6 +243,17 @@ typedef struct
   * @}
   */
 
+/** @defgroup PWR_STOP_LPR_Voltage  PWR STOP mode LPR Voltage Selection.
+  * @{
+  */
+#define PWR_STOPMOD_LPR_VOLT_1P2V         PWR_STOPMOD_LPR_VOLT_SCALE1       /*!< After entering stop mode, VDD=1.2V */
+#define PWR_STOPMOD_LPR_VOLT_1P0V         PWR_STOPMOD_LPR_VOLT_SCALE2       /*!< After entering stop mode, VDD=1.0V */
+#define PWR_STOPMOD_LPR_VOLT_0P9V         PWR_STOPMOD_LPR_VOLT_SCALE3       /*!< After entering stop mode, VDD=0.9V */
+#define PWR_STOPMOD_LPR_VOLT_0P8V         PWR_STOPMOD_LPR_VOLT_SCALE4       /*!< After entering stop mode, VDD=0.8V */
+/**
+  * @}
+  */
+
 #if defined(PWR_CR1_MRRDY_TIME)
 /** @defgroup PWR_STOP_WakeUp_Regulator_Switch_Delay  PWR Stop mode WakeUp Voltage regulators switches from LPR to MR Delay.
   * @{

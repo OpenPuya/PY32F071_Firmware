@@ -627,7 +627,7 @@ __STATIC_INLINE uint32_t LL_USART_GetDataWidth(USART_TypeDef *USARTx)
 #if defined(USART_CR3_OVER8)
 /**
   * @brief  Set Oversampling to 8-bit or 16-bit mode
-  * @rmtoll CR1          OVER8         LL_USART_SetOverSampling
+  * @rmtoll CR3          OVER8         LL_USART_SetOverSampling
   * @param  USARTx USART Instance
   * @param  OverSampling This parameter can be one of the following values:
   *         @arg @ref LL_USART_OVERSAMPLING_16
@@ -636,12 +636,12 @@ __STATIC_INLINE uint32_t LL_USART_GetDataWidth(USART_TypeDef *USARTx)
   */
 __STATIC_INLINE void LL_USART_SetOverSampling(USART_TypeDef *USARTx, uint32_t OverSampling)
 {
-  MODIFY_REG(USARTx->CR1, USART_CR3_OVER8, OverSampling);
+  MODIFY_REG(USARTx->CR3, USART_CR3_OVER8, OverSampling);
 }
 
 /**
   * @brief  Return Oversampling mode
-  * @rmtoll CR1          OVER8         LL_USART_GetOverSampling
+  * @rmtoll CR3          OVER8         LL_USART_GetOverSampling
   * @param  USARTx USART Instance
   * @retval Returned value can be one of the following values:
   *         @arg @ref LL_USART_OVERSAMPLING_16
@@ -649,7 +649,7 @@ __STATIC_INLINE void LL_USART_SetOverSampling(USART_TypeDef *USARTx, uint32_t Ov
   */
 __STATIC_INLINE uint32_t LL_USART_GetOverSampling(USART_TypeDef *USARTx)
 {
-  return (uint32_t)(READ_BIT(USARTx->CR1, USART_CR3_OVER8));
+  return (uint32_t)(READ_BIT(USARTx->CR3, USART_CR3_OVER8));
 }
 
 #endif /* USART_OverSampling_Feature */

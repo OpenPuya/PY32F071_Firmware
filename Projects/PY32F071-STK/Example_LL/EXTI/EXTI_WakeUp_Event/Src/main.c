@@ -123,6 +123,9 @@ static void APP_ExtiConfig(void)
   */
 static void APP_PwrEnterStopMode(void)
 {
+  /* VCORE = 0.8V when enter stop mode */
+  LL_PWR_SetRegulVoltageScaling(LL_PWR_REGU_VOLTAGE_0P8V);
+
   /* Stop mode with low-power regulator */
   LL_PWR_EnableLowPowerRunMode();
 

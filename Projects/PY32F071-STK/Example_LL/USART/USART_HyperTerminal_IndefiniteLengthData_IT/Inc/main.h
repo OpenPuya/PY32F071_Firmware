@@ -54,19 +54,14 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* Private defines -----------------------------------------------------------*/
-#define RX_MAX_LEN 200     /* Single frame data, maximum received data length */
-#define RX_TIMEOUT 2       /* Single frame data, receiving timeout time (ms) 
-                              after hardware detects idle frames */
+#define RX_MAX_LEN 128     /* Single frame data, maximum received data length */
 
 /* Exported variables prototypes ---------------------------------------------*/
-extern uint8_t RxBuf[RX_MAX_LEN];
-extern uint32_t RxLen;
-extern __IO uint32_t CheckFlag;
-extern __IO uint32_t CheckLen;
-extern __IO uint32_t timeout;
+extern uint32_t cRxIndex;
+extern uint8_t  aRxBuffer[RX_MAX_LEN];
+
 /* Exported functions prototypes ---------------------------------------------*/
 void APP_ErrorHandler(void);
-void APP_UsartIRQCallback(USART_TypeDef *USARTx);
 
 #ifdef __cplusplus
 }

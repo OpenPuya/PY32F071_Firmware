@@ -96,19 +96,17 @@ void USART2_IRQHandler(void)
   /* receive data register not empty */
   if ((LL_USART_IsActiveFlag_RXNE(USART2) != RESET) && (LL_USART_IsEnabledIT_RXNE(USART2) != RESET))
   {
-    RxBuf[RxLen++] = LL_USART_ReceiveData8(USART2);
-  }
-  
-  /* Idle frame detect */
-  if ((LL_USART_IsActiveFlag_IDLE(USART2) != RESET) && (LL_USART_IsEnabledIT_IDLE(USART2) != RESET))
-  {
-    LL_USART_ClearFlag_IDLE(USART2);
+    /* Receive data */
+    aRxBuffer[cRxIndex] = (uint8_t)(USART2->DR & (uint8_t)0x00FF);
+
+    /* Send received data */
+    USART2->DR = aRxBuffer[cRxIndex];
     
-    CheckFlag = 1;             /* Received an idle frame and enabled the check to
-                                  see if it is a single frame data receiving end */
-    CheckLen = RxLen;          /* Obtain the length of received single frame data */
-    timeout = RX_TIMEOUT;      /* Record the timeout time (for timeout judgment) */
-    LL_SYSTICK_IsActiveCounterFlag(); /* Clear the COUNTFLAG first */
+    cRxIndex++;
+    if(cRxIndex > (RX_MAX_LEN - 1))
+    {
+      cRxIndex = (RX_MAX_LEN - 1);
+    }
   }
 }
 /************************ (C) COPYRIGHT Puya *****END OF FILE******************/

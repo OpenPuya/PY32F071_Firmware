@@ -895,9 +895,11 @@ typedef struct
 /** @defgroup ADC_LL_EC_VrefBuf  ADC Vrefbuf
   * @{
   */
-#define LL_ADC_VREFBUF_1P5V                    (0x00000000)                                        /*!< ADC VrefBuf 1.5V */
 #define LL_ADC_VREFBUF_2P048V                  (ADC_CR2_VREFBUFFERSEL_0)                           /*!< ADC VrefBuf 2.048V */
 #define LL_ADC_VREFBUF_2P5V                    (ADC_CR2_VREFBUFFERSEL_1)                           /*!< ADC VrefBuf 2.5V */
+
+#define LL_ADC_VREFBUF_2P14V                  LL_ADC_VREFBUF_2P048V                                /*!< ADC VrefBuf 2.14V */
+#define LL_ADC_VREFBUF_2P66V                  LL_ADC_VREFBUF_2P5V                                  /*!< ADC VrefBuf 2.66V */
 /**
   * @}
   */
@@ -3295,27 +3297,27 @@ __STATIC_INLINE void LL_ADC_StartCalibration(ADC_TypeDef *ADCx)
   SET_BIT(ADCx->CR2, ADC_CR2_CAL);
 }
 
-/**
-  * @brief  Reset ADC calibration 
-  * @rmtoll CR2      RSTCAL            LL_ADC_ResetCalibration
-  * @param  ADCx ADC instance
-  * @retval None
-  */
-__STATIC_INLINE void LL_ADC_ResetCalibration(ADC_TypeDef *ADCx)
-{
-  SET_BIT(ADCx->CR2, ADC_CR2_RSTCAL);
-}
+///**
+//  * @brief  Reset ADC calibration 
+//  * @rmtoll CR2      RSTCAL            LL_ADC_ResetCalibration
+//  * @param  ADCx ADC instance
+//  * @retval None
+//  */
+//__STATIC_INLINE void LL_ADC_ResetCalibration(ADC_TypeDef *ADCx)
+//{
+//  SET_BIT(ADCx->CR2, ADC_CR2_RSTCAL);
+//}
 
-/**
-  * @brief  Get ADC Reset calibration state.
-  * @rmtoll CR2      RSTCAL            LL_ADC_IsResetCalibrationOnGoing
-  * @param  ADCx ADC instance
-  * @retval 0: Reset calibration complete, 1: reset calibration in progress.
-  */
-__STATIC_INLINE uint32_t LL_ADC_IsResetCalibrationOnGoing(ADC_TypeDef *ADCx)
-{
-  return (READ_BIT(ADCx->CR2, ADC_CR2_RSTCAL) == (ADC_CR2_RSTCAL));
-}
+///**
+//  * @brief  Get ADC Reset calibration state.
+//  * @rmtoll CR2      RSTCAL            LL_ADC_IsResetCalibrationOnGoing
+//  * @param  ADCx ADC instance
+//  * @retval 0: Reset calibration complete, 1: reset calibration in progress.
+//  */
+//__STATIC_INLINE uint32_t LL_ADC_IsResetCalibrationOnGoing(ADC_TypeDef *ADCx)
+//{
+//  return (READ_BIT(ADCx->CR2, ADC_CR2_RSTCAL) == (ADC_CR2_RSTCAL));
+//}
 
 /**
   * @brief  Get ADC calibration state.
@@ -3903,7 +3905,7 @@ __STATIC_INLINE void LL_ADC_DisableVrefBufferVoltage(ADC_TypeDef *ADCx)
 /**
   * @brief  Get state of VrefBuff Voltage output
   *         (0: output disabled, 1: output enabled).
-  * @rmtoll CR      VREFBUFFERE          LL_ADC_IsEnabled_VrefBuffVoltage
+  * @rmtoll CR2      VREFBUFFERE          LL_ADC_IsEnabled_VrefBuffVoltage
   * @param  ADCx ADC instance
   * @retval State of bit (1 or 0).
   */
@@ -3913,12 +3915,11 @@ __STATIC_INLINE uint32_t LL_ADC_IsEnabled_VrefBufferVoltage(ADC_TypeDef *ADCx)
 }
 /**
   * @brief  Set ADC VrefBuffer Voltage.
-  * @rmtoll CR       VREFBUFFERSEL   LL_ADC_SetVrefBufferVoltage
+  * @rmtoll CR2       VREFBUFFERSEL   LL_ADC_SetVrefBufferVoltage
   * @param  ADCx ADC instance
   * @param  VrefBufferVoltage This parameter can be one of the following values:
-  *         @arg @ref LL_ADC_VREFBUF_1P5V
-  *         @arg @ref LL_ADC_VREFBUF_2P048V
-  *         @arg @ref LL_ADC_VREFBUF_2P5V
+  *         @arg @ref LL_ADC_VREFBUF_2P14V
+  *         @arg @ref LL_ADC_VREFBUF_2P66V
   * @retval None
   */
 __STATIC_INLINE void LL_ADC_SetVrefBufferVoltage(ADC_TypeDef *ADCx, uint32_t VrefBufferVoltage)
@@ -3928,12 +3929,11 @@ __STATIC_INLINE void LL_ADC_SetVrefBufferVoltage(ADC_TypeDef *ADCx, uint32_t Vre
 
 /**
   * @brief  Get ADC VrefBuffer Voltage.
-  * @rmtoll CR       VREFBUFFERSEL       LL_ADC_GetVrefBufferVoltage
+  * @rmtoll CR2       VREFBUFFERSEL       LL_ADC_GetVrefBufferVoltage
   * @param  ADCx ADC instance
   * @retval Returned value can be one of the following values:
-  *         @arg @ref LL_ADC_VREFBUF_1P5V
-  *         @arg @ref LL_ADC_VREFBUF_2P048V
-  *         @arg @ref LL_ADC_VREFBUF_2P5V
+  *         @arg @ref LL_ADC_VREFBUF_2P14V
+  *         @arg @ref LL_ADC_VREFBUF_2P66V
   */
 __STATIC_INLINE uint32_t LL_ADC_GetVrefBufferVoltage(ADC_TypeDef *ADCx)
 {

@@ -32,6 +32,8 @@
 
 /* Private define ------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
+PWR_StopModeConfigTypeDef PwrStopModeConf = {0};
+
 /* Private user code ---------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
@@ -72,7 +74,12 @@ int main(void)
   printf("STOP MODE!\n\n");
 
   /* Suspend SysTick interrupt */
-  HAL_SuspendTick();    
+  HAL_SuspendTick();   
+
+  PwrStopModeConf.LPVoltSelection     =  PWR_STOPMOD_LPR_VOLT_0P8V;
+  PwrStopModeConf.FlashDelay          =  PWR_WAKEUP_HSIEN_AFTER_MR;
+  PwrStopModeConf.WakeUpHsiEnableTime =  PWR_WAKEUP_FLASH_DELAY_1US;
+  HAL_PWR_ConfigStopMode(&PwrStopModeConf);
 
   /* Enter STOP mode */
   HAL_PWR_EnterSTOPMode(PWR_LOWPOWERREGULATOR_ON, PWR_STOPENTRY_WFI);  

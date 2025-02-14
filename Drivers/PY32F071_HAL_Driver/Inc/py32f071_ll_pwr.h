@@ -73,6 +73,18 @@ extern "C" {
   * @}
   */
 
+/** @defgroup PWR_LL_EC_REGU_VOLTAGE REGU VOLTAGE
+  * @{
+  */
+#define LL_PWR_REGU_VOLTAGE_1P2V           LL_PWR_REGU_VOLTAGE_SCALE1        /* After entering stop mode, VDD=1.2V */
+#define LL_PWR_REGU_VOLTAGE_1P0V           LL_PWR_REGU_VOLTAGE_SCALE2        /* After entering stop mode, VDD=1.0V */
+#define LL_PWR_REGU_VOLTAGE_0P9V           LL_PWR_REGU_VOLTAGE_SCALE3        /* After entering stop mode, VDD=0.9V */
+#define LL_PWR_REGU_VOLTAGE_0P8V           LL_PWR_REGU_VOLTAGE_SCALE4        /* After entering stop mode, VDD=0.8V */
+/**
+  * @}
+  */
+
+
 /** @defgroup PWR_LL_EC_WAKEUP_HSION_MODE WAKEUP HSI ON MODE
   * @{
   */
@@ -192,10 +204,10 @@ extern "C" {
   * @brief  Set the main internal regulator output voltage
   * @rmtoll CR1          VOS           LL_PWR_SetRegulVoltageScaling
   * @param  VoltageScaling This parameter can be one of the following values:
-  *         @arg @ref LL_PWR_REGU_VOLTAGE_SCALE1
-  *         @arg @ref LL_PWR_REGU_VOLTAGE_SCALE2
-  *         @arg @ref LL_PWR_REGU_VOLTAGE_SCALE3
-  *         @arg @ref LL_PWR_REGU_VOLTAGE_SCALE4
+  *         @arg @ref LL_PWR_REGU_VOLTAGE_1P2V
+  *         @arg @ref LL_PWR_REGU_VOLTAGE_1P0V
+  *         @arg @ref LL_PWR_REGU_VOLTAGE_0P9V
+  *         @arg @ref LL_PWR_REGU_VOLTAGE_0P8V
   * @retval None
   */
 __STATIC_INLINE void LL_PWR_SetRegulVoltageScaling(uint32_t VoltageScaling)
@@ -207,10 +219,10 @@ __STATIC_INLINE void LL_PWR_SetRegulVoltageScaling(uint32_t VoltageScaling)
   * @brief  Get the main internal regulator output voltage
   * @rmtoll CR1          VOS           LL_PWR_GetRegulVoltageScaling
   * @retval Returned value can be one of the following values:
-  *         @arg @ref LL_PWR_REGU_VOLTAGE_SCALE1
-  *         @arg @ref LL_PWR_REGU_VOLTAGE_SCALE2
-  *         @arg @ref LL_PWR_REGU_VOLTAGE_SCALE3
-  *         @arg @ref LL_PWR_REGU_VOLTAGE_SCALE4
+  *         @arg @ref LL_PWR_REGU_VOLTAGE_1P2V
+  *         @arg @ref LL_PWR_REGU_VOLTAGE_1P0V
+  *         @arg @ref LL_PWR_REGU_VOLTAGE_0P9V
+  *         @arg @ref LL_PWR_REGU_VOLTAGE_0P8V
   */
 __STATIC_INLINE uint32_t LL_PWR_GetRegulVoltageScaling(void)
 {

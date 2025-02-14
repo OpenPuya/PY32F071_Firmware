@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    py32f4xx_hal_msp.c
+  * @file    py32f071_hal_msp.c
   * @author  MCU Application Team
   * @brief   This file provides code for the MSP Initialization
   *          and de-Initialization codes.

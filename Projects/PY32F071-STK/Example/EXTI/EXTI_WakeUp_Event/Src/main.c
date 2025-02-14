@@ -33,6 +33,8 @@
 
 /* Private define ------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
+PWR_StopModeConfigTypeDef PwrStopModeConf = {0};
+
 /* Private user code ---------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
@@ -56,9 +58,6 @@ int main(void)
   /* Configure external events */
   APP_ConfigureEXTI();
   
-  /* Pause systick */
-  HAL_SuspendTick();
-  
   /* Turn on LED */
   BSP_LED_On(LED_GREEN);
   
@@ -69,7 +68,16 @@ int main(void)
   
   /* Turn off LED */
   BSP_LED_Off(LED_GREEN);
-  
+
+  /* Pause systick */
+  HAL_SuspendTick();
+
+  /* VCORE = 0.8V  when enter stop mode */
+  PwrStopModeConf.LPVoltSelection     =  PWR_STOPMOD_LPR_VOLT_0P8V;
+  PwrStopModeConf.FlashDelay          =  PWR_WAKEUP_HSIEN_AFTER_MR;
+  PwrStopModeConf.WakeUpHsiEnableTime =  PWR_WAKEUP_FLASH_DELAY_1US;
+  HAL_PWR_ConfigStopMode(&PwrStopModeConf);
+
   /* Entering STOP mode */
   HAL_PWR_EnterSTOPMode(PWR_LOWPOWERREGULATOR_ON, PWR_STOPENTRY_WFE);
   

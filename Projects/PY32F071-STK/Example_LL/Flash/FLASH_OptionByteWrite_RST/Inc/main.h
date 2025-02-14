@@ -46,8 +46,7 @@ extern "C" {
 #include "py32f071_ll_pwr.h"
 #include "py32f071_ll_dma.h"
 #include "py32f071_ll_gpio.h"
-
-#include "py32f0xx_hal.h"
+#include "py32f071_ll_flash.h"
 
 #if defined(USE_FULL_ASSERT)
 #include "py32_assert.h"

@@ -2,9 +2,7 @@
   "name": "Project",
   "type": "ARM",
   "dependenceList": [],
-  "srcDirs": [
-    ".eide/deps"
-  ],
+  "srcDirs": [],
   "virtualFolder": {
     "name": "<virtual_root>",
     "files": [],
@@ -41,30 +39,21 @@
       },
       {
         "name": "PY32F071_HAL_Driver",
-        "files":[
+        "files": [
           {
-            "path":"../../../../../../Drivers/PY32F071_HAL_Driver/Src/py32f071_ll_utils.c"
-          },
-          {                
-            "path":"../../../../../../Drivers/PY32F071_HAL_Driver/Src/py32f071_hal.c"
-          },
-          {                
-            "path":"../../../../../../Drivers/PY32F071_HAL_Driver/Src/py32f071_hal_flash.c"
-          },
-          {                
-            "path":"../../../../../../Drivers/PY32F071_HAL_Driver/Src/py32f071_hal_cortex.c"
+            "path": "../../../../../../Drivers/PY32F071_HAL_Driver/Src/py32f071_ll_utils.c"
           }
         ],
         "folders": []
       },
       {
         "name": "User",
-        "files":[
+        "files": [
           {
-            "path":"../Src/main.c"
+            "path": "../Src/main.c"
           },
           {
-            "path":"../Src/py32f071_it.c"
+            "path": "../Src/py32f071_it.c"
           }
         ],
         "folders": []
@@ -121,6 +110,7 @@
       "custom_dep": {
         "name": "default",
         "incList": [
+          ".",
           "../Inc",
           "../../../../../../Drivers/CMSIS/Include",
           "../../../../../../Drivers/CMSIS/Device/PY32F071/Include",
@@ -128,10 +118,43 @@
           "../../../../../../Drivers/BSP/PY32F071xx_Start_Kit"
         ],
         "libList": [],
-        "sourceDirList": [],
-        "defineList": ["PY32F071xB","USE_FULL_LL_DRIVER"]
+        "defineList": [
+          "PY32F071xB",
+          "USE_FULL_LL_DRIVER"
+        ]
+      },
+      "builderOptions": {
+        "GCC": {
+          "version": 5,
+          "beforeBuildTasks": [],
+          "afterBuildTasks": [],
+          "global": {
+            "$float-abi-type": "softfp",
+            "output-debug-info": "enable",
+            "misc-control": "--specs=nosys.specs --specs=nano.specs"
+          },
+          "c/cpp-compiler": {
+            "language-c": "c11",
+            "language-cpp": "c++11",
+            "optimization": "level-debug",
+            "warnings": "all-warnings",
+            "one-elf-section-per-function": true,
+            "one-elf-section-per-data": true,
+            "C_FLAGS": "",
+            "CXX_FLAGS": ""
+          },
+          "asm-compiler": {
+            "ASM_FLAGS": ""
+          },
+          "linker": {
+            "output-format": "elf",
+            "remove-unused-input-sections": true,
+            "LD_FLAGS": " ",
+            "LIB_FLAGS": "-lm"
+          }
+        }
       }
     }
   },
-  "version": "3.3"
+  "version": "3.5"
 }
