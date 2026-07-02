@@ -36,11 +36,17 @@
 #define HAL_ADC_TSCAL1                  (*(uint32_t *)(0x1fff3228))  /*!< Temperature Scale1 */
 #define HAL_ADC_TSCAL2                  (*(uint32_t *)(0x1fff3230))  /*!< Temperature Scale2 */
 #define Vcc_Power     3.3l                                            /* VCC power supply voltage, modify according to actual situation  */
-#define TScal1        (float)((HAL_ADC_TSCAL1) * 3.3 / Vcc_Power)     /* Voltage corresponding to calibration value at 25 ℃ */
-#define TScal2        (float)((HAL_ADC_TSCAL2) * 3.3 / Vcc_Power)     /* Voltage corresponding to calibration value at 85 ℃ */
-#define TStem1        25l                                             /* 25 ℃ */
-#define TStem2        85l                                             /* 85 ℃ */
-#define Temp_k        ((float)(TStem2-TStem1)/(float)(TScal2-TScal1)) /* Temperature calculation */
+#define TScal1        (float)((HAL_ADC_TSCAL1) * 3.3 / Vcc_Power)     /* Voltage corresponding to calibration value at 30 ℃ */
+#define TScal2        (float)((HAL_ADC_TSCAL2) * 3.3 / Vcc_Power)     /* Voltage corresponding to calibration value at 85 or 105 ℃ */
+#define TStem1        30l                                             /* 30 ℃ */
+
+#define HighTemp_85
+/* #define HighTemp_105 */
+
+#define TStem2_85        85   
+#define TStem2_105       105  
+#define Temp_k_85        ((float)(TStem2_85-TStem1)/(float)(TScal2-TScal1))
+#define Temp_k_105       ((float)(TStem2_105-TStem1)/(float)(TScal2-TScal1))
 
 /* Private variables ---------------------------------------------------------*/
 __IO uint32_t wait_loop_index = 0;
@@ -92,8 +98,13 @@ int main(void)
     }
     LL_ADC_ClearFlag_EOS(ADC1);
     ADCxConvertedData = LL_ADC_REG_ReadConversionData12(ADC1);
- 
-    hADCxConvertedData_Temperature_DegreeCelsius =(int16_t)(Temp_k * ADCxConvertedData - Temp_k * TScal1 + TStem1);
+
+/* Please Check the High Temperature Value accord the datasheet */
+#if defined(HighTemp_85)
+      hADCxConvertedData_Temperature_DegreeCelsius =(int16_t)(Temp_k_85 * ADCxConvertedData - Temp_k_85 * TScal1 + TStem1);
+#else
+      hADCxConvertedData_Temperature_DegreeCelsius =(int16_t)(Temp_k_105 * ADCxConvertedData - Temp_k_105 * TScal1 + TStem1);
+#endif
       
     printf("Temperature: %d\r\n",hADCxConvertedData_Temperature_DegreeCelsius);
     LL_mDelay(1000);

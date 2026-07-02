@@ -46,6 +46,10 @@ resetting, and the LED light will keep blinking;
 6. The program will always reset,LED light cycle on 4s, off 500ms.
 ================================================================================
 注意事项：
+如果需要使用按键:
+StartKit版本为V2.0以下,需将StartKit.h中的StartKitVersion 2 注释掉，并打开
+StartKitVersion 1
+StartKit版本为V2.0及以上版本,则无需操作
 
 Notes：
 

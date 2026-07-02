@@ -202,7 +202,11 @@ void BSP_PB_DeInit(Button_TypeDef Button)
   */
 uint32_t BSP_PB_GetState(Button_TypeDef Button)
 {
+#if StartKitVersion == 2
+  return (LL_GPIO_IsInputPinSet(BUTTON_PORT[Button], BUTTON_PIN[Button]) == RESET);
+#else
   return LL_GPIO_IsInputPinSet(BUTTON_PORT[Button], BUTTON_PIN[Button]);
+#endif
 }
 
 /**

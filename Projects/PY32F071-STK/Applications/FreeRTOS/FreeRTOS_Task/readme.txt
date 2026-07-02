@@ -43,18 +43,31 @@ observe the task execution process.
 
 ================================================================================
 注意事项：
-STK板与USB转TTL模块的连线方式如下：
+如果需要使用按键:
+StartKit版本为V2.0以下,需将StartKit.h中的StartKitVersion 2 注释掉，并打开
+StartKitVersion 1
+StartKit版本为V2.0及以上版本,则无需操作
+通过USB转TTL模块连接PC与STK板,STK板与USB转TTL模块的连线方式如下；
+@PrintfConfigStart
 STK板        USB转TTL模块
-PA02(TX) --> RX
-PA03(RX) --> TX
-GND      --> GND
-波特率：115200bps
+PA02(TX)  -->  RX
+PA03(RX)  -->  TX
+GND       -->  GND
+UART配置为波特率115200，数据位8，停止位1，校验位None
+@PrintfConfigEnd
 
 Notes:
-The STK board is wired to the USB to TTL module as follows:
-STK board    USB to TTL module
-PA02(TX) --> RX
-PA03(RX) --> TX
-GND      --> GND
-Baud rate: 115200bps
+If you need to use buttons:
+StartKit version is below V2.0, you need to comment StartKitVersion 2 in
+StartKit.h, and open StartKitVersion 1 
+StartKit version is V2.0 and above, no operation is required
+Connect the PC to the STK board through the USB to TTL module, and the connection
+method between the STK board and the USB to TTL module is as follows:
+@PrintfConfigStart
+STK board USB to TTL module
+PA02(TX)  -->  RX
+PA03(RX)  -->  TX
+GND       -->  GND
+UART is configured as BaudRate 115200, data bit 8, stop bit 1, and parity None.
+@PrintfConfigEnd
 ================================================================================

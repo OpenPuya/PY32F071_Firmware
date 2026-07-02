@@ -29,7 +29,7 @@ OPT = -Og
 # paths
 #######################################
 # Build path
-BUILD_DIR = build\Project
+BUILD_DIR = Project
 
 ######################################
 # source
@@ -126,8 +126,8 @@ C_INCLUDES =  \
 -I../../../../../../Drivers/PY32F071_HAL_Driver/Inc \
 -I../../../../../../Drivers/CMSIS/Device/PY32F071/Include \
 -I../../../../../../Drivers/CMSIS/Include \
--I../../../../../../Middlewares\Third_Party\FreeRTOS\Source\include \
--I../../../../../../Middlewares\Third_Party\FreeRTOS\Source\portable\GCC\ARM_CM0
+-I../../../../../../Middlewares/Third_Party/FreeRTOS/Source/include \
+-I../../../../../../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0
 
 
 # compile gcc flags

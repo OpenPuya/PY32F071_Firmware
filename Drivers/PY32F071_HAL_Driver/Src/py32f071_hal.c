@@ -64,11 +64,11 @@
   * @{
   */
 /**
- * @brief PY32F071 HAL Driver version number
+ * @brief PY32F071 HAL Driver version number V1.1.1
    */
 #define __PY32F071_HAL_VERSION_MAIN   (0x01U) /*!< [31:24] main version */
-#define __PY32F071_HAL_VERSION_SUB1   (0x00U) /*!< [23:16] sub1 version */
-#define __PY32F071_HAL_VERSION_SUB2   (0x00U) /*!< [15:8]  sub2 version */
+#define __PY32F071_HAL_VERSION_SUB1   (0x01U) /*!< [23:16] sub1 version */
+#define __PY32F071_HAL_VERSION_SUB2   (0x01U) /*!< [15:8]  sub2 version */
 #define __PY32F071_HAL_VERSION_RC     (0x00U) /*!< [7:0]  release candidate */
 #define __PY32F071_HAL_VERSION        ((__PY32F071_HAL_VERSION_MAIN << 24U)\
                                        |(__PY32F071_HAL_VERSION_SUB1 << 16U)\

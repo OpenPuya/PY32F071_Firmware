@@ -16,14 +16,14 @@
         <TargetCommonOption>
           <Device>PY32F071xB</Device>
           <Vendor>Puya</Vendor>
-          <PackID>Puya.PY32F0xx_DFP.1.2.0</PackID>
+          <PackID>Puya.PY32F0xx_DFP.1.2.6</PackID>
           <PackURL>https://www.puyasemi.com/uploadfiles/</PackURL>
-          <Cpu>IRAM(0x20000000,0x00004000) IROM(0x08000000,0x00020000) CPUTYPE("Cortex-M0+") CLOCK(12000000) ELITTLE</Cpu>
+          <Cpu>IRAM(0x20000000,0x00004000) IROM(0x08000000,0x00020000) IROM2(0x1FFF3100,0x00000020) CPUTYPE("Cortex-M0+") CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
-          <FlashDriverDll>UL2CM3(-S0 -C0 -P0 -FD20000000 -FC1000 -FN1 -FF0PY32F071xx_128 -FS08000000 -FL020000 -FP0($$Device:PY32F071xB$CMSIS\Flash\PY32F071xx_128.FLM))</FlashDriverDll>
+          <FlashDriverDll>UL2CM3(-S0 -C0 -P0 -FD20000000 -FC1000 -FN1 -FF0PY063xx_128 -FS08000000 -FL020000 -FP0($$Device:PY32F071xB$CMSIS\Flash\PY063xx_128.FLM))</FlashDriverDll>
           <DeviceId>0</DeviceId>
-          <RegisterFile>$$Device:PY32F071xB$Drivers\CMSIS\Device\Puya\PY32F0xx\Include\py32f0xx.h</RegisterFile>
+          <RegisterFile>$$Device:PY32F071xB$Drivers\CMSIS\Device\PY32F0xx\Include\py32f0xx.h</RegisterFile>
           <MemoryEnv></MemoryEnv>
           <Cmp></Cmp>
           <Asm></Asm>
@@ -185,8 +185,10 @@
             <uocXRam>0</uocXRam>
             <RvdsVP>0</RvdsVP>
             <RvdsMve>0</RvdsMve>
+            <RvdsCdeCp>0</RvdsCdeCp>
+            <nBranchProt>0</nBranchProt>
             <hadIRAM2>0</hadIRAM2>
-            <hadIROM2>0</hadIROM2>
+            <hadIROM2>1</hadIROM2>
             <StupSel>8</StupSel>
             <useUlib>1</useUlib>
             <EndSel>0</EndSel>
@@ -279,8 +281,8 @@
               </OCR_RVCT4>
               <OCR_RVCT5>
                 <Type>1</Type>
-                <StartAddress>0x0</StartAddress>
-                <Size>0x0</Size>
+                <StartAddress>0x1fff3100</StartAddress>
+                <Size>0x20</Size>
               </OCR_RVCT5>
               <OCR_RVCT6>
                 <Type>0</Type>

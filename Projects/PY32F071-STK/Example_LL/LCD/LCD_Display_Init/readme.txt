@@ -60,8 +60,16 @@ Example execution steps:
 3. Press the reset button to display the "88:88" characters on the LCD.
 ================================================================================
 注意事项：
+如果需要使用按键:
+StartKit版本为V2.0以下,需将StartKit.h中的StartKitVersion 2 注释掉，并打开
+StartKitVersion 1
+StartKit版本为V2.0及以上版本,则无需操作
 单色无源液晶显示器(LCD)的型号为：GDC04212。
 
 Notes:
+If you need to use buttons:
+StartKit version is below V2.0, you need to comment StartKitVersion 2 in
+StartKit.h, and open StartKitVersion 1 
+StartKit version is V2.0 and above, no operation is required
 The model of the monochrome passive LCD is: GDC04212.
 ================================================================================

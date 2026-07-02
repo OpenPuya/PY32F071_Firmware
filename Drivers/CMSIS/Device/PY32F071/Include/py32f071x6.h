@@ -294,7 +294,7 @@ typedef struct
   __IO uint32_t CR;                                /*!< FLASH Control register,            Address offset: 0x14 */
   uint32_t RESERVED2[2];                           /*!< Reserved2,                         Address offset: 0x18-0x1C */
   __IO uint32_t OPTR;                              /*!< FLASH Option register,             Address offset: 0x20 */
-  __IO uint32_t SDKR;                              /*!< FLASH SDK address register,        Address offset: 0x24 */
+  __IO uint32_t BORCR;                             /*!< FLASH BORCR address register,      Address offset: 0x24 */
   __IO uint32_t RESERVED3;                         /*!< RESERVED3,                         Address offset: 0x28 */
   __IO uint32_t WRPR;                              /*!< FLASH WRP address register,        Address offset: 0x2C */
   uint32_t RESERVED4[(0x90 - 0x2C) / 4 - 1];       /*!< RESERVED4,                         Address offset: 0x30-0x8C */
@@ -320,11 +320,8 @@ typedef struct
   __IO uint8_t USER;         /*!< FLASH option byte user options,                     Address offset: 0x01 */
   __IO uint8_t nRDP;         /*!< Complemented FLASH option byte Read protection,     Address offset: 0x02 */
   __IO uint8_t nUSER;        /*!< Complemented FLASH option byte user options,        Address offset: 0x03 */
-  __IO uint8_t SDK_STRT;     /*!< SDK area start address(stored in SDK[4:0]),         Address offset: 0x04 */
-  __IO uint8_t SDK_END;      /*!< SDK area end address(stored in SDK[12:8]),          Address offset: 0x05 */
-  __IO uint8_t nSDK_STRT;    /*!< Complemented SDK area start address,                Address offset: 0x06 */
-  __IO uint8_t nSDK_END;     /*!< Complemented SDK area end address,                  Address offset: 0x07 */
-  uint32_t RESERVED1;        /*!< RESERVED1,                                          Address offset: 0x08 */
+  uint32_t RESERVED1;        /*!< RESERVED1,                                          Address offset: 0x04 */
+  uint32_t RESERVED2;        /*!< RESERVED2,                                          Address offset: 0x08 */
   __IO uint16_t WRP;         /*!< FLASH option byte write protection,                 Address offset: 0x0C */
   __IO uint16_t nWRP;        /*!< Complemented FLASH option byte write protection,    Address offset: 0x0E */
 } OB_TypeDef;
@@ -1531,6 +1528,10 @@ typedef struct
 #define DAC_CR_DMAUDRIE1_Pos                      (13U)
 #define DAC_CR_DMAUDRIE1_Msk                      (0x1UL << DAC_CR_DMAUDRIE1_Pos)                   /*!< 0x00002000 */
 #define DAC_CR_DMAUDRIE1                          DAC_CR_DMAUDRIE1_Msk                              /*!< desc DMAUDRIE1 */
+#define DAC_CR_DAC1CEN_Pos                        (14U)
+#define DAC_CR_DAC1CEN_Msk                        (0x1UL << DAC_CR_DAC1CEN_Pos)                     /*!< 0x00004000 */
+#define DAC_CR_DAC1CEN                            DAC_CR_DAC1CEN_Msk                                /*!< desc DAC1CEN */
+
 #define DAC_CR_EN2_Pos                            (16U)
 #define DAC_CR_EN2_Msk                            (0x1UL << DAC_CR_EN2_Pos)                         /*!< 0x00010000 */
 #define DAC_CR_EN2                                DAC_CR_EN2_Msk                                    /*!< desc EN2 */
@@ -2010,7 +2011,7 @@ typedef struct
 #define EXTI_RTSR_RT16_Msk          (0x1UL << EXTI_RTSR_RT16_Pos)            /*!< 0x00010000 */
 #define EXTI_RTSR_RT16              EXTI_RTSR_RT16_Msk                       /*!< Rising trigger configuration for input line 16 */
 #define EXTI_RTSR_RT17_Pos          (17U)
-#define EXTI_RTSR_RT17_Msk          (0x1UL << EXTI_RTSR_RT16_Pos)            /*!< 0x00020000 */
+#define EXTI_RTSR_RT17_Msk          (0x1UL << EXTI_RTSR_RT17_Pos)            /*!< 0x00020000 */
 #define EXTI_RTSR_RT17              EXTI_RTSR_RT17_Msk                       /*!< Rising trigger configuration for input line 17 */
 #define EXTI_RTSR_RT18_Pos          (18U)
 #define EXTI_RTSR_RT18_Msk          (0x1UL << EXTI_RTSR_RT18_Pos)            /*!< 0x00040000 */
@@ -2551,31 +2552,41 @@ typedef struct
 #define FLASH_OPTR_RDP_LEVEL_1          (0x55)
 
 /*******************  Bits definition for FLASH_SDKR register  **************/
-#define FLASH_SDKR_SDK_STRT_Pos           (0U)
-#define FLASH_SDKR_SDK_STRT_Msk           (0x1FUL << FLASH_SDKR_SDK_STRT_Pos)
-#define FLASH_SDKR_SDK_STRT               FLASH_SDKR_SDK_STRT_Msk
-#define FLASH_SDKR_SDK_STRT_0             (0x01UL << FLASH_SDKR_SDK_STRT_Pos)
-#define FLASH_SDKR_SDK_STRT_1             (0x02UL << FLASH_SDKR_SDK_STRT_Pos)
-#define FLASH_SDKR_SDK_STRT_2             (0x04UL << FLASH_SDKR_SDK_STRT_Pos)
-#define FLASH_SDKR_SDK_STRT_3             (0x08UL << FLASH_SDKR_SDK_STRT_Pos)
-#define FLASH_SDKR_SDK_STRT_4             (0x10UL << FLASH_SDKR_SDK_STRT_Pos)
-#define FLASH_SDKR_SDK_END_Pos            (8U)
-#define FLASH_SDKR_SDK_END_Msk            (0x1FUL << FLASH_SDKR_SDK_END_Pos)
-#define FLASH_SDKR_SDK_END                FLASH_SDKR_SDK_END_Msk
-#define FLASH_SDKR_SDK_END_0              (0x01UL << FLASH_SDKR_SDK_END_Pos)
-#define FLASH_SDKR_SDK_END_1              (0x02UL << FLASH_SDKR_SDK_END_Pos)
-#define FLASH_SDKR_SDK_END_2              (0x04UL << FLASH_SDKR_SDK_END_Pos)
-#define FLASH_SDKR_SDK_END_3              (0x08UL << FLASH_SDKR_SDK_END_Pos)
-#define FLASH_SDKR_SDK_END_4              (0x10UL << FLASH_SDKR_SDK_END_Pos)
-#define FLASH_SDKR_BOR_EN_Pos             (5U)
-#define FLASH_SDKR_BOR_EN_Msk             (0x1UL << FLASH_SDKR_BOR_EN_Pos)     /*!< 0x00000020 */
-#define FLASH_SDKR_BOR_EN                 FLASH_SDKR_BOR_EN_Msk
-#define FLASH_SDKR_BOR_LEV_Pos            (13U)
-#define FLASH_SDKR_BOR_LEV_Msk            (0x7UL << FLASH_SDKR_BOR_LEV_Pos)    /*!< 0x0000E000 */
-#define FLASH_SDKR_BOR_LEV                FLASH_SDKR_BOR_LEV_Msk
-#define FLASH_SDKR_BOR_LEV_0              (0x1UL << FLASH_SDKR_BOR_LEV_Pos)    /*!< 0x00002000 */
-#define FLASH_SDKR_BOR_LEV_1              (0x2UL << FLASH_SDKR_BOR_LEV_Pos)    /*!< 0x00004000 */
-#define FLASH_SDKR_BOR_LEV_2              (0x4UL << FLASH_SDKR_BOR_LEV_Pos)    /*!< 0x00005000 */
+//#define FLASH_SDKR_SDK_STRT_Pos           (0U)
+//#define FLASH_SDKR_SDK_STRT_Msk           (0x1FUL << FLASH_SDKR_SDK_STRT_Pos)
+//#define FLASH_SDKR_SDK_STRT               FLASH_SDKR_SDK_STRT_Msk
+//#define FLASH_SDKR_SDK_STRT_0             (0x01UL << FLASH_SDKR_SDK_STRT_Pos)
+//#define FLASH_SDKR_SDK_STRT_1             (0x02UL << FLASH_SDKR_SDK_STRT_Pos)
+//#define FLASH_SDKR_SDK_STRT_2             (0x04UL << FLASH_SDKR_SDK_STRT_Pos)
+//#define FLASH_SDKR_SDK_STRT_3             (0x08UL << FLASH_SDKR_SDK_STRT_Pos)
+//#define FLASH_SDKR_SDK_STRT_4             (0x10UL << FLASH_SDKR_SDK_STRT_Pos)
+//#define FLASH_SDKR_SDK_END_Pos            (8U)
+//#define FLASH_SDKR_SDK_END_Msk            (0x1FUL << FLASH_SDKR_SDK_END_Pos)
+//#define FLASH_SDKR_SDK_END                FLASH_SDKR_SDK_END_Msk
+//#define FLASH_SDKR_SDK_END_0              (0x01UL << FLASH_SDKR_SDK_END_Pos)
+//#define FLASH_SDKR_SDK_END_1              (0x02UL << FLASH_SDKR_SDK_END_Pos)
+//#define FLASH_SDKR_SDK_END_2              (0x04UL << FLASH_SDKR_SDK_END_Pos)
+//#define FLASH_SDKR_SDK_END_3              (0x08UL << FLASH_SDKR_SDK_END_Pos)
+//#define FLASH_SDKR_SDK_END_4              (0x10UL << FLASH_SDKR_SDK_END_Pos)
+//#define FLASH_SDKR_BOR_EN_Pos             (5U)
+//#define FLASH_SDKR_BOR_EN_Msk             (0x1UL << FLASH_SDKR_BOR_EN_Pos)     /*!< 0x00000020 */
+//#define FLASH_SDKR_BOR_EN                 FLASH_SDKR_BOR_EN_Msk
+//#define FLASH_SDKR_BOR_LEV_Pos            (13U)
+//#define FLASH_SDKR_BOR_LEV_Msk            (0x7UL << FLASH_SDKR_BOR_LEV_Pos)    /*!< 0x0000E000 */
+//#define FLASH_SDKR_BOR_LEV                FLASH_SDKR_BOR_LEV_Msk
+//#define FLASH_SDKR_BOR_LEV_0              (0x1UL << FLASH_SDKR_BOR_LEV_Pos)    /*!< 0x00002000 */
+//#define FLASH_SDKR_BOR_LEV_1              (0x2UL << FLASH_SDKR_BOR_LEV_Pos)    /*!< 0x00004000 */
+//#define FLASH_SDKR_BOR_LEV_2              (0x4UL << FLASH_SDKR_BOR_LEV_Pos)    /*!< 0x00005000 */
+
+#define FLASH_BORCR_BOR_EN_Pos             (5U)
+#define FLASH_BORCR_BOR_EN_Msk             (0x1UL << FLASH_BORCR_BOR_EN_Pos)     /*!< 0x00000020 */
+#define FLASH_BORCR_BOR_EN                 FLASH_BORCR_BOR_EN_Msk
+#define FLASH_BORCR_BOR_LEV_Pos            (13U)
+#define FLASH_BORCR_BOR_LEV_Msk            (0x7UL << FLASH_BORCR_BOR_LEV_Pos)    /*!< 0x0000E000 */
+#define FLASH_BORCR_BOR_LEV                FLASH_BORCR_BOR_LEV_Msk
+#define FLASH_BORCR_BOR_LEV_0              (0x1UL << FLASH_BORCR_BOR_LEV_Pos)    /*!< 0x00002000 */
+#define FLASH_BORCR_BOR_LEV_1              (0x2UL << FLASH_BORCR_BOR_LEV_Pos)    /*!< 0x00004000 */
+#define FLASH_BORCR_BOR_LEV_2              (0x4UL << FLASH_BORCR_BOR_LEV_Pos)    /*!< 0x00005000 */
 
 /******************  Bits definition for FLASH_WRPR register  ***************/
 #define FLASH_WRPR_WRP_Pos              (0U)

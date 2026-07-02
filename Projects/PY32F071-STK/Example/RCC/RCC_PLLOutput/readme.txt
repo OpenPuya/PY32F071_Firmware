@@ -33,10 +33,18 @@ Example execution steps:
    matches the configured PLL frequency (32MHz).
 ================================================================================
 注意事项：
-1. 注意PLL的输入时钟源频率在2倍频时必须大于等于12MHz，3倍频时必须大于等于16MHz。
+如果需要使用按键:
+StartKit版本为V2.0以下,需将StartKit.h中的StartKitVersion 2 注释掉，并打开
+StartKitVersion 1
+StartKit版本为V2.0及以上版本,则无需操作
+1. 注意PLL的输入时钟源频率在2倍频时必须大于等于16MHz，3倍频时必须大于等于22.12MHz。
 
 Notes:
+If you need to use buttons:
+StartKit version is below V2.0, you need to comment StartKitVersion 2 in
+StartKit.h, and open StartKitVersion 1 
+StartKit version is V2.0 and above, no operation is required
 1. Note that the PLL input clock source frequency must be greater than or equal 
-   to 12MHz for 2x PLL multiplication, and greater than or equal to 16MHz for 
+   to 16MHz for 2x PLL multiplication, and greater than or equal to 22.12MHz for 
    3x PLL multiplication.
 ================================================================================

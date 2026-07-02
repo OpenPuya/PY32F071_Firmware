@@ -46,14 +46,21 @@ Example execution steps:
    slave; Otherwise, communication between the host and slave will fail.
 ================================================================================
 注意事项：
+如果需要使用按键:
+StartKit版本为V2.0以下,需将StartKit.h中的StartKitVersion 2 注释掉，并打开
+StartKitVersion 1
+StartKit版本为V2.0及以上版本,则无需操作
 （1）I2C引脚
 PB6  -------> I2C1_SCL
 PB7  -------> I2C1_SDA
-（2）串口连线
+（2）通过USB转TTL模块连接PC与STK板,STK板与USB转TTL模块的连线方式如下；
+@PrintfConfigStart
 STK板        USB转TTL模块
 PA02(TX)  -->  RX
 PA03(RX)  -->  TX
 GND       -->  GND
+UART配置为波特率115200，数据位8，停止位1，校验位None
+@PrintfConfigEnd
 （3）主机程序和从机程序
 主机程序为I2C_TwoBoard_MasterTxIndefiniteLengthData_IT_Init
 从机程序为I2C_TwoBoard_SlaveRxIndefiniteLengthData_IT_Init
@@ -64,14 +71,22 @@ GND       -->  GND
 接收数据长度（当前样例为200byte）。
 
 Notes:
+If you need to use buttons:
+StartKit version is below V2.0, you need to comment StartKitVersion 2 in
+StartKit.h, and open StartKitVersion 1 
+StartKit version is V2.0 and above, no operation is required
 (1) I2C pin
 PB6  -------> I2C1_SCL
 PB7  -------> I2C1_SDA
-(2) UART connection
-STK board    USB to TTL moudle
+(2) Connect the PC to the STK board through the USB to TTL module, and the connection
+method between the STK board and the USB to TTL module is as follows:
+@PrintfConfigStart
+STK board USB to TTL module
 PA02(TX)  -->  RX
 PA03(RX)  -->  TX
-GND      -->  GND
+GND       -->  GND
+UART is configured as BaudRate 115200, data bit 8, stop bit 1, and parity None.
+@PrintfConfigEnd
 (3) Master program and slave program
 Master program: I2C_TwoBoard_MasterTxIndefiniteLengthData_IT_Init
 Slave program: I2C_TwoBoard_SlaveRxIndefiniteLengthData_IT_Init

@@ -1,0 +1,11 @@
+CompileFlags:
+    Add:
+        - -Id:\programfiles\puyasde\tool\arm-none-eabi\include\newlib-nano
+        - -Id:\programfiles\puyasde\tool\arm-none-eabi\include\c++\10.3.1
+        - -Id:\programfiles\puyasde\tool\arm-none-eabi\include\c++\10.3.1\arm-none-eabi\thumb\v6-m\nofp
+        - -Id:\programfiles\puyasde\tool\arm-none-eabi\include\c++\10.3.1\backward
+        - -Id:\programfiles\puyasde\tool\lib\gcc\arm-none-eabi\10.3.1\include
+        - -Id:\programfiles\puyasde\tool\lib\gcc\arm-none-eabi\10.3.1\include-fixed
+        - -Id:\programfiles\puyasde\tool\arm-none-eabi\include
+    CompilationDatabase: ./Project
+    Compiler: D:\ProgramFiles\PuyaSDE\tool\bin\arm-none-eabi-g++.exe

@@ -32,7 +32,7 @@
 #include "main.h"
 
 /* Private define ------------------------------------------------------------*/
-#define Delay             40*3
+#define Delay             40*4
 
 /* Private variables ---------------------------------------------------------*/
 LPTIM_HandleTypeDef       LPTIMConf = {0};

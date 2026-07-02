@@ -82,6 +82,9 @@ typedef enum
   BUTTON_MODE_EXTI = 1
 } ButtonMode_TypeDef;
 
+#define StartKitVersion 2
+/* #define StartKitVersion 1 */
+
 #define LEDn                               1
 
 #define LED3_PIN                           LL_GPIO_PIN_2

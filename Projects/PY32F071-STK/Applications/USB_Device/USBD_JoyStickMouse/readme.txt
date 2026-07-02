@@ -38,6 +38,10 @@ Example execution steps:
 
 ================================================================================
 注意事项：
+如果需要使用按键:
+StartKit版本为V2.0以下,需将StartKit.h中的StartKitVersion 2 注释掉，并打开
+StartKitVersion 1
+StartKit版本为V2.0及以上版本,则无需操作
 1. 在用户测试程序过程中，如果对USB接口进行热插拔，当重新插上USB线到PC端后，有可能鼠标
 不再移动。这是因为程序在发送新的鼠标位置之前会检查上一次是否发送成功（通过检查
 HID_STATE_BUSY标志位）。如果热插拔过程中导致USB通信失败一次，则会停止更新鼠标位置。为
@@ -45,6 +49,10 @@ HID_STATE_BUSY标志位）。如果热插拔过程中导致USB通信失败一次
 响鼠标移动。
 
 Notes:
+If you need to use buttons:
+StartKit version is below V2.0, you need to comment StartKitVersion 2 in
+StartKit.h, and open StartKitVersion 1 
+StartKit version is V2.0 and above, no operation is required
 1. During user testing, if the USB interface is hot-plugged, the mouse movement 
 may stop after reconnecting the USB cable to the PC. This is because the program 
 checks if the previous mouse position update was successful (by checking the 

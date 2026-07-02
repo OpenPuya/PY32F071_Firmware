@@ -64,13 +64,23 @@ slave is blinking, it indicates that the host or slave fails to receive and send
 data.
 ================================================================================
 注意事项:
+如果需要使用按键:
+StartKit版本为V2.0以下,需将StartKit.h中的StartKitVersion 2 注释掉，并打开
+StartKitVersion 1
+StartKit版本为V2.0及以上版本,则无需操作
 1.必须先按从机复位按键使从机程序先运行，再按主机用户按键开始运行主机程序，否则会
 导致主从机通信失败。
 2.主机模式可通过程序设置IO控制方式为DMA方式、中断方式和查询方式
 3.NSS引脚只需要在使用NSS硬件方式时连接（本样例使用的是NSS软件方式，无需连接NSS引
 脚）
+4.开发板焊接了FLASH器件，使用该样例建议去除R44/R47/R48/R49/R50五个电阻。没有焊接
+FLASH器件，无需关注这五个电阻。
 
-Note:
+Notes:
+If you need to use buttons:
+StartKit version is below V2.0, you need to comment StartKitVersion 2 in
+StartKit.h, and open StartKitVersion 1 
+StartKit version is V2.0 and above, no operation is required
 1. You must press the slave reset button to make the slave program run first, 
 and then press the host user button to start running the host program, 
 otherwise, the communication between the host and slave will be fail
@@ -78,4 +88,7 @@ otherwise, the communication between the host and slave will be fail
 interrupt mode and query mode
 3.NSS pins need to be connected only when using NSS hardware mode (this example 
 uses NSS hardware mode,no need to connect NSS pins).
+4.The development board is soldered FLASH devices, the use of this sample is
+recommended to remove the five resistors R44/R47/R48/R49/R50. No FLASH device is
+soldered, no need to pay attention to these five resistors.
 ================================================================================

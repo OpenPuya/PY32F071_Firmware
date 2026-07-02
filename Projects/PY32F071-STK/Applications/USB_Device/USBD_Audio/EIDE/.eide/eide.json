@@ -102,9 +102,9 @@
       }
     ]
   },
-  "outDir": "build",
+  "outDir": ".",
   "deviceName": "PY32F071xB",
-  "packDir": "../../../../../../Packs/GCC/.pack/Puya/PY32F0xx_DFP",
+  "packDir": null,
   "miscInfo": {
     "uid": "36bcf0031e18a3008bbdaa90a96a7987"
   },
@@ -123,12 +123,14 @@
         },
         "options": "null"
       },
-      "uploader": "OpenOCD",
+      "uploader": "pyOCD",
       "uploadConfig": {
         "bin": "",
-        "target": "py32f071",
-        "interface": "cmsis-dap",
-        "baseAddr": "0x08000000"
+        "targetName": "PY32F071xB",
+        "baseAddr": "0x08000000",
+        "speed": "4M",
+        "otherCmds": "\"--pack=${env:PYSDEPATH}\\packs\\PY32F0xx_DFP.pack\"",
+        "config": ".eide/project.pyocd.yaml"
       },
       "uploadConfigMap": {
         "JLink": {
@@ -147,6 +149,14 @@
           "target": "py32f071",
           "interface": "cmsis-dap",
           "baseAddr": "0x08000000"
+        },
+        "pyOCD": {
+          "bin": "",
+          "targetName": "PY32F071xB",
+          "baseAddr": "0x08000000",
+          "speed": "4M",
+          "otherCmds": "\"--pack=${env:PYSDEPATH}\\packs\\PY32F0xx_DFP.pack\"",
+          "config": ".eide/project.pyocd.yaml"
         }
       },
       "custom_dep": {

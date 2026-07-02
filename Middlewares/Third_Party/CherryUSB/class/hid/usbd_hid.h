@@ -13,7 +13,7 @@ extern "C" {
 #endif
 
 /* Init hid interface driver */
-struct usbd_interface *usbd_hid_init_intf(struct usbd_interface *intf, const uint8_t *desc, uint32_t desc_len);
+struct usbd_interface *usbd_hid_init_intf(struct usbd_interface *intf, const uint8_t *hid_desc, const uint8_t *report_desc, uint32_t desc_len);
 
 /* Register desc api */
 void usbd_hid_descriptor_register(uint8_t intf_num, const uint8_t *desc);

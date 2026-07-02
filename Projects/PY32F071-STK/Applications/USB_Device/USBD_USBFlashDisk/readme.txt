@@ -37,6 +37,10 @@ USB Udisk.
 
 ================================================================================
 注意事项：
+如果需要使用按键:
+StartKit版本为V2.0以下,需将StartKit.h中的StartKitVersion 2 注释掉，并打开
+StartKitVersion 1
+StartKit版本为V2.0及以上版本,则无需操作
 1. 第一次使用时PC端会弹出格式化U盘，请按提示格式化U盘即可。
 2. 此样例使用的是96Kbytes flash的MCU，如果要应用到其它尺寸的flash，需要修改代码
 3. 此样例中MCU的flash，只预留了32Kbytes给用户程序，如果用户程序超过32KBytes，需

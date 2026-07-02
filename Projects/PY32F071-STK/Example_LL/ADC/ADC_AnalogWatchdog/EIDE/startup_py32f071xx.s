@@ -162,7 +162,7 @@ g_pfnVectors:
   .word PVD_IRQHandler                    /* PVD through EXTI Line detect */
   .word RTC_IRQHandler                    /* RTC through the EXTI line    */
   .word FLASH_IRQHandler                  /* FLASH                        */
-  .word RCC_IRQHandler                    /* RCC                          */
+  .word RCC_CTC_IRQHandler                /* RCC and CTC                  */
   .word EXTI0_1_IRQHandler                /* EXTI Line 0 and 1            */
   .word EXTI2_3_IRQHandler                /* EXTI Line 2 and 3            */
   .word EXTI4_15_IRQHandler               /* EXTI Line 4 to 15            */
@@ -226,8 +226,8 @@ g_pfnVectors:
   .weak      FLASH_IRQHandler
   .thumb_set FLASH_IRQHandler,Default_Handler
 
-  .weak      RCC_IRQHandler
-  .thumb_set RCC_IRQHandler,Default_Handler
+  .weak      RCC_CTC_IRQHandler
+  .thumb_set RCC_CTC_IRQHandler,Default_Handler
 
   .weak      EXTI0_1_IRQHandler
   .thumb_set EXTI0_1_IRQHandler,Default_Handler

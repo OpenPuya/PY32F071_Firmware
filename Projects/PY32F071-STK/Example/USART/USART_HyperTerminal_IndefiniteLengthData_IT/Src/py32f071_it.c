@@ -94,12 +94,16 @@ void SysTick_Handler(void)
   */
 void USART2_IRQHandler(void)
 {
-  /* UART in mode Receiver */
+   /* UART in mode Receiver */
   if ((__HAL_UART_GET_FLAG(&UartHandle, UART_FLAG_RXNE) != RESET) && \
       (__HAL_UART_GET_IT_SOURCE(&UartHandle, UART_IT_RXNE) != RESET))
   {
-    /* Receive data */
     aRxBuffer[cRxIndex] = (uint8_t)(UartHandle.Instance->DR & (uint8_t)0x00FF);
+
+    /* Wait SR_TXE bit set 1 */
+    while(__HAL_UART_GET_FLAG(&UartHandle, UART_FLAG_TXE) == RESET)
+    {
+    }
 
     /* Send received data */
     UartHandle.Instance->DR = aRxBuffer[cRxIndex];
@@ -108,6 +112,15 @@ void USART2_IRQHandler(void)
     {
       cRxIndex = (RX_MAX_LEN - 1);
     }
+  }
+
+  if(__HAL_UART_GET_FLAG(&UartHandle, UART_FLAG_ORE) == SET)
+  {
+    /* Clearing the ORE bit */
+    __HAL_UART_CLEAR_OREFLAG(&UartHandle);
+    
+    /* Error callback function */
+    APP_UsartErrorCallback();
   }
 }
 

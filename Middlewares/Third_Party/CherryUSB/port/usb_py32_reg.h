@@ -3,7 +3,7 @@
 
 #include <string.h>
 #include <stdio.h>
-#include "py32f0xx_hal.h"
+#include "py32f0xx.h"
 
 #define	__I	volatile const	/* defines 'read only' permissions */
 #define __O	volatile	/* defines 'write only' permissions */

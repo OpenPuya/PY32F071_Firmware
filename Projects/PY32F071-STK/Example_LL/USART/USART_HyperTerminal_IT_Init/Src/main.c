@@ -43,15 +43,15 @@ uint8_t aTxStartMessage[] = "\n\r USART Hyperterminal communication based on IT 
 uint8_t aTxEndMessage[] = "\n\r Example Finished\n\r";
 
 uint8_t *TxBuff = NULL;
-__IO uint16_t TxSize = 0;
 __IO uint16_t TxCount = 0;
 
 uint8_t *RxBuff = NULL;
-__IO uint16_t RxSize = 0;
 __IO uint16_t RxCount = 0;
 
 __IO ITStatus UsartReady = RESET;
-__IO ITStatus UsartError = RESET;
+
+uint32_t  EieFlags = 0;
+uint32_t  ErrorFlags = 0;
 
 /* Private user code ---------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
@@ -61,6 +61,7 @@ static void APP_ConfigUsart(void);
 static void APP_UsartTransmit_IT(USART_TypeDef *USARTx, uint8_t *pData, uint16_t Size);
 static void APP_UsartReceive_IT(USART_TypeDef *USARTx, uint8_t *pData, uint16_t Size);
 static void APP_WaitToReady(void);
+static void APP_UsartErrorCallback(void);
 
 /**
   * @brief  Main program
@@ -94,9 +95,20 @@ int main(void)
   APP_UsartTransmit_IT(USART2, (uint8_t*)aTxEndMessage, TXENDMESSAGESIZE);
   APP_WaitToReady();
 
-  /* Turn on LED if test passes then enter infinite loop */
-  BSP_LED_On(LED_GREEN);
-  
+  if(EieFlags)
+  {
+    while (1)
+    {
+      /* Toggle LED if usart has any errors */
+      BSP_LED_Toggle(LED_GREEN); 
+      LL_mDelay(500);
+    }
+  }
+  else
+  {
+    /* Turn on LED if test passes then enter infinite loop */
+    BSP_LED_On(LED_GREEN);
+  }
   /* Infinite loop */
   while (1)
   {
@@ -144,11 +156,6 @@ static void APP_WaitToReady(void)
   while (UsartReady != SET);
   
   UsartReady = RESET;
-
-  if(UsartError == SET)
-  {
-    APP_ErrorHandler();
-  }
 }
 
 /**
@@ -225,7 +232,6 @@ static void APP_ConfigUsart(void)
 static void APP_UsartTransmit_IT(USART_TypeDef *USARTx, uint8_t *pData, uint16_t Size)
 {
   TxBuff = pData;
-  TxSize = Size;
   TxCount = Size;
   
   /* Enable TX Empty Interrupt */
@@ -242,7 +248,6 @@ static void APP_UsartTransmit_IT(USART_TypeDef *USARTx, uint8_t *pData, uint16_t
 static void APP_UsartReceive_IT(USART_TypeDef *USARTx, uint8_t *pData, uint16_t Size)
 {
   RxBuff = pData;
-  RxSize = Size;
   RxCount = Size;
   
   /* Enable Parity Error Interrupt */
@@ -265,11 +270,12 @@ static void APP_UsartReceive_IT(USART_TypeDef *USARTx, uint8_t *pData, uint16_t 
   */
 void APP_UsartIRQCallback(USART_TypeDef *USARTx)
 {
-  /* receive data register not empty */
-  uint32_t errorflags = (LL_USART_IsActiveFlag_PE(USARTx) | LL_USART_IsActiveFlag_FE(USARTx) |\
+  /* Check SR register PE,FE,ORE,NE bit */
+  ErrorFlags = (LL_USART_IsActiveFlag_PE(USARTx) | LL_USART_IsActiveFlag_FE(USARTx) |\
                          LL_USART_IsActiveFlag_ORE(USARTx) | LL_USART_IsActiveFlag_NE(USARTx));
-  if (errorflags == RESET)
+  if (ErrorFlags == RESET)
   {
+    /* The receive data register is not empty */
     if ((LL_USART_IsActiveFlag_RXNE(USARTx) != RESET) && (LL_USART_IsEnabledIT_RXNE(USARTx) != RESET))
     {
       *RxBuff = LL_USART_ReceiveData8(USARTx);
@@ -286,25 +292,35 @@ void APP_UsartIRQCallback(USART_TypeDef *USARTx)
       return;
     }
   }
-  
-  /* receive error */ 
-  if (errorflags != RESET)
+
+  /* An error occurred during receiving data */
+  if (ErrorFlags != RESET)
   {
-    UsartError = SET;
-    return;
-  }
-  
+    /* Clearing the ORE bit here will clear the FE, PE, NE
+       flag bits together. */
+    LL_USART_ClearFlag_ORE(USARTx);
+    
+    /* Error callback function */
+    APP_UsartErrorCallback();
+  }  
+
   /* Transmit data register is empty */ 
   if ((LL_USART_IsActiveFlag_TXE(USARTx) != RESET) && (LL_USART_IsEnabledIT_TXE(USARTx) != RESET))
   {
+    /* To prevent the TC flag bit from being affected by other operations during
+       data transmission, read the SR register in conjunction with write the DR
+       Register to clear the TC flag bit.
+    */
+    (void)(USARTx->SR);
     LL_USART_TransmitData8(USARTx, *TxBuff);
     TxBuff++;
+
     if (--TxCount == 0U)
     { 
-        LL_USART_DisableIT_TXE(USARTx);
-        
+        LL_USART_DisableIT_TXE(USARTx);       
         LL_USART_EnableIT_TC(USARTx);
     }
+
     return;
   }
   
@@ -316,6 +332,18 @@ void APP_UsartIRQCallback(USART_TypeDef *USARTx)
   
     return;
   }
+}
+
+/**
+  * @brief  USART Error handling function
+  * @param  None
+  * @retval None
+  */
+static void APP_UsartErrorCallback(void)
+{
+  /* The specific error can be viewed through
+     the variable EieFlags */
+  EieFlags = ErrorFlags;
 }
 
 /**

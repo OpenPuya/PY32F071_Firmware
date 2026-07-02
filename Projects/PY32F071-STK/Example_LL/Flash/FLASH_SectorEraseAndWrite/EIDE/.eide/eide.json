@@ -39,30 +39,29 @@
       },
       {
         "name": "PY32F071_HAL_Driver",
-        "files": [
+        "files":[
           {
-            "path": "../../../../../../Drivers/PY32F071_HAL_Driver/Src/py32f071_ll_utils.c"
-          }
-        ],
+            "path":"../../../../../../Drivers/PY32F071_HAL_Driver/Src/py32f071_ll_utils.c"
+          }],
         "folders": []
       },
       {
         "name": "User",
-        "files": [
+        "files":[
           {
-            "path": "../Src/main.c"
+            "path":"../Src/main.c"
           },
           {
-            "path": "../Src/py32f071_it.c"
+            "path":"../Src/py32f071_it.c"
           }
         ],
         "folders": []
       }
     ]
   },
-  "outDir": "build",
+  "outDir": ".",
   "deviceName": "PY32F071xB",
-  "packDir": "../../../../../../Packs/GCC/.pack/Puya/PY32F0xx_DFP",
+  "packDir": null,
   "miscInfo": {
     "uid": "36bcf0031e18a3008bbdaa90a96a7987"
   },
@@ -81,12 +80,14 @@
         },
         "options": "null"
       },
-      "uploader": "OpenOCD",
+      "uploader": "pyOCD",
       "uploadConfig": {
         "bin": "",
-        "target": "py32f071",
-        "interface": "cmsis-dap",
-        "baseAddr": "0x08000000"
+        "targetName": "PY32F071xB",
+        "baseAddr": "0x08000000",
+        "speed": "4M",
+        "otherCmds": "\"--pack=${env:PYSDEPATH}\\packs\\PY32F0xx_DFP.pack\"",
+        "config": ".eide/project.pyocd.yaml"
       },
       "uploadConfigMap": {
         "JLink": {
@@ -105,12 +106,19 @@
           "target": "py32f071",
           "interface": "cmsis-dap",
           "baseAddr": "0x08000000"
+        },
+        "pyOCD": {
+          "bin": "",
+          "targetName": "PY32F071xB",
+          "baseAddr": "0x08000000",
+          "speed": "4M",
+          "otherCmds": "\"--pack=${env:PYSDEPATH}\\packs\\PY32F0xx_DFP.pack\"",
+          "config": ".eide/project.pyocd.yaml"
         }
       },
       "custom_dep": {
         "name": "default",
         "incList": [
-          ".",
           "../Inc",
           "../../../../../../Drivers/CMSIS/Include",
           "../../../../../../Drivers/CMSIS/Device/PY32F071/Include",
@@ -118,10 +126,7 @@
           "../../../../../../Drivers/BSP/PY32F071xx_Start_Kit"
         ],
         "libList": [],
-        "defineList": [
-          "PY32F071xB",
-          "USE_FULL_LL_DRIVER"
-        ]
+        "defineList": ["PY32F071xB","USE_FULL_LL_DRIVER"]
       },
       "builderOptions": {
         "GCC": {
@@ -156,5 +161,5 @@
       }
     }
   },
-  "version": "3.5"
+  "version": "3.3"
 }

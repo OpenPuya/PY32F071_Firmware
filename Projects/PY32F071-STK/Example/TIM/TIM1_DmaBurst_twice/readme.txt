@@ -32,17 +32,25 @@ GCC Version: GNU Arm Embedded Toolchain 10.3-2021.10
 使用步骤：
 1. 下载并运行程序
 2. 通过逻辑分析仪示波器捕捉PA0上翻转间隔
-3. 翻转间隔从400ms,接着变为2ms,最后变为200us
+3. 翻转间隔从400ms,接着变为20ms,最后变为200us
 4. 变为200us后，翻转间隔均为200us
 
 Example execution steps:
 1. compile and download the program to MCU and run it;
 2. Capture the turnover interval on PA0 through the logic analyzer oscilloscope
-3. The turnover interval changed from 400ms, then to 2ms, and finally to 200us
+3. The turnover interval changed from 400ms, then to 20ms, and finally to 200us
 4. After the value is changed to 200us, the turnover interval is always 200us
 ================================================================================
 注意事项：
+如果需要使用按键:
+StartKit版本为V2.0以下,需将StartKit.h中的StartKitVersion 2 注释掉，并打开
+StartKitVersion 1
+StartKit版本为V2.0及以上版本,则无需操作
 
 Notes:
+If you need to use buttons:
+StartKit version is below V2.0, you need to comment StartKitVersion 2 in
+StartKit.h, and open StartKitVersion 1 
+StartKit version is V2.0 and above, no operation is required
 
 ================================================================================

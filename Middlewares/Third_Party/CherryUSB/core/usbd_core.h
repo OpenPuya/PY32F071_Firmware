@@ -57,6 +57,7 @@ struct usbd_interface {
     usbd_request_handler class_endpoint_handler;
     usbd_request_handler vendor_handler;
     usbd_notify_handler notify_handler;
+    const uint8_t *hid_descriptor;
     const uint8_t *hid_report_descriptor;
     uint32_t hid_report_descriptor_len;
     uint8_t intf_num;

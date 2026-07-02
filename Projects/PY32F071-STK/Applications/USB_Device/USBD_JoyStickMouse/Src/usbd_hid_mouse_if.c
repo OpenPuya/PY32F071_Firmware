@@ -29,7 +29,7 @@ const uint8_t hid_descriptor[] = {
     0x00,                          /* bAlternateSetting: Alternate setting */
     0x01,                          /* bNumEndpoints */
     0x03,                          /* bInterfaceClass: HID */
-    0x01,                          /* bInterfaceSubClass : 1=BOOT, 0=no boot */
+    0x00,                          /* bInterfaceSubClass : 1=BOOT, 0=no boot */
     0x02,                          /* nInterfaceProtocol : 0=none, 1=keyboard, 2=mouse */
     0,                             /* iInterface: Index of string descriptor */
     /******************** Descriptor of Joystick Mouse HID ********************/
@@ -167,6 +167,20 @@ static const uint8_t hid_mouse_report_desc[HID_MOUSE_REPORT_DESC_SIZE] = {
     0x01, 0xc0 //   END_COLLECTION
 };
 
+static const uint8_t mouse_hid_desc[9] = {
+  
+    0x09,                    /* bLength: HID Descriptor size */
+    HID_DESCRIPTOR_TYPE_HID, /* bDescriptorType: HID */
+    0x11,                    /* bcdHID: HID Class Spec release number */
+    0x01,
+    0x00,                       /* bCountryCode: Hardware target country */
+    0x01,                       /* bNumDescriptors: Number of HID class descriptors to follow */
+    0x22,                       /* bDescriptorType */
+    HID_MOUSE_REPORT_DESC_SIZE, /* wItemLength: Total length of Report descriptor */
+    0x00,
+  
+};
+
 /*!< mouse report struct */
 struct hid_mouse {
     uint8_t buttons;
@@ -206,7 +220,7 @@ struct usbd_interface intf0;
 void hid_mouse_init(void)
 {
     usbd_desc_register(hid_descriptor);
-    usbd_add_interface(usbd_hid_init_intf(&intf0, hid_mouse_report_desc, HID_MOUSE_REPORT_DESC_SIZE));
+    usbd_add_interface(usbd_hid_init_intf(&intf0, mouse_hid_desc, hid_mouse_report_desc, HID_MOUSE_REPORT_DESC_SIZE));
     usbd_add_endpoint(&hid_in_ep);
 
     usbd_initialize();
@@ -237,4 +251,15 @@ void hid_mouse_test(void)
     hid_state = HID_STATE_BUSY;
     while (hid_state == HID_STATE_BUSY) {
     }
+}
+
+uint8_t idle_speed;
+void usbh_hid_set_idle(uint8_t intf, uint8_t report_id, uint8_t duration)
+{
+  idle_speed = duration;
+}
+   
+uint8_t usbh_hid_get_idle(uint8_t intf, uint8_t report_id)
+{
+    return idle_speed;
 }

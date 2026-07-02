@@ -781,3 +781,13 @@ void USBD_IRQHandler(void)
 
   pyusb_set_active_ep(old_ep_idx);
 }
+
+void usbd_activateremotewakeup(void)
+{
+  USB->POWER |= USB_POWER_RESUME;
+}
+
+void usbd_deactivateremotewakeup(void)
+{
+  USB->POWER &= ~USB_POWER_RESUME;
+}

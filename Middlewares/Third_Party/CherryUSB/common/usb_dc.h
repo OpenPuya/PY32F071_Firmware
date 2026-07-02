@@ -173,6 +173,15 @@ void usbd_ep0_set_zlp_flag(void);
  */
 void usbd_ep0_reset_zlp_flag(void);
 /**
+ * @brief Send resume.
+ */
+void usbd_activateremotewakeup(void);
+/**
+ * @brief Stop send resume.
+ */
+void usbd_deactivateremotewakeup(void);
+
+/**
  * @}
  */
 

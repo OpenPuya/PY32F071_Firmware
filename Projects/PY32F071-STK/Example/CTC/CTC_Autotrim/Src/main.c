@@ -102,7 +102,7 @@ static void APP_SystemClockConfig(void)
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI | RCC_OSCILLATORTYPE_HSE | RCC_OSCILLATORTYPE_LSE;  /* Select RCC oscillator HSE, HSI, LSE */
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;                                                     /* Enable HSI */
   RCC_OscInitStruct.HSIDiv = RCC_HSI_DIV1;                                                     /* 1 division frequency */
-  RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_16MHz;                            /* Configure the HSI output clock to 16MHz */
+  RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_24MHz;                            /* Configure the HSI output clock to 24MHz */
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;                                                     /* Start HSE */
   RCC_OscInitStruct.HSEFreq = RCC_HSE_16_32MHz;                                                /* HSE crystal oscillator operating frequency 16M~32M */
   /*RCC_OscInitStruct.LSIState = RCC_LSI_OFF;*/                                                /* Close LSI */
@@ -110,7 +110,7 @@ static void APP_SystemClockConfig(void)
   RCC_OscInitStruct.LSEDriver = RCC_LSEDRIVE_HIGH;                                             /* LSE high driver capability */
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;                                                 /* Enable PLL */
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;                                         /* Select PLL source as HSI */
-  RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL3;                                                 /* PLL triple frequency */
+  RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL2;                                                 /* PLL Mul2 */
   /* Initialize RCC oscillator */
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {

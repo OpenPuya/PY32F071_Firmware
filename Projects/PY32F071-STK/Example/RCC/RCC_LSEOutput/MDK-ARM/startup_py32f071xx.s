@@ -92,7 +92,7 @@ __Vectors       DCD     __initial_sp              ; Top of Stack
                 DCD     PVD_IRQHandler                 ; 1PVD through EXTI Line detect
                 DCD     RTC_IRQHandler                 ; 2RTC through EXTI Line
                 DCD     FLASH_IRQHandler               ; 3FLASH
-                DCD     RCC_IRQHandler                 ; 4RCC
+                DCD     RCC_CTC_IRQHandler             ; 4RCC&CTC
                 DCD     EXTI0_1_IRQHandler             ; 5EXTI Line 0 and 1
                 DCD     EXTI2_3_IRQHandler             ; 6EXTI Line 2 and 3
                 DCD     EXTI4_15_IRQHandler            ; 7EXTI Line 4 to 15
@@ -170,7 +170,7 @@ Default_Handler PROC
                 EXPORT  PVD_IRQHandler                 [WEAK]
                 EXPORT  RTC_IRQHandler                 [WEAK]
                 EXPORT  FLASH_IRQHandler               [WEAK]
-                EXPORT  RCC_IRQHandler                 [WEAK]
+                EXPORT  RCC_CTC_IRQHandler             [WEAK]
                 EXPORT  EXTI0_1_IRQHandler             [WEAK]
                 EXPORT  EXTI2_3_IRQHandler             [WEAK]
                 EXPORT  EXTI4_15_IRQHandler            [WEAK]   
@@ -202,7 +202,7 @@ WWDG_IRQHandler
 PVD_IRQHandler                
 RTC_IRQHandler                
 FLASH_IRQHandler              
-RCC_IRQHandler                
+RCC_CTC_IRQHandler               
 EXTI0_1_IRQHandler            
 EXTI2_3_IRQHandler            
 EXTI4_15_IRQHandler           

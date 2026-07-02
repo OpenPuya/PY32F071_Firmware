@@ -216,7 +216,11 @@ void BSP_PB_DeInit(Button_TypeDef Button)
   */
 uint32_t BSP_PB_GetState(Button_TypeDef Button)
 {
+#if StartKitVersion == 2
+  return (HAL_GPIO_ReadPin(BUTTON_PORT[Button], BUTTON_PIN[Button]) == GPIO_PIN_RESET);
+#else
   return HAL_GPIO_ReadPin(BUTTON_PORT[Button], BUTTON_PIN[Button]);
+#endif
 }
 
 #ifdef HAL_UART_MODULE_ENABLED

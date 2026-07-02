@@ -33,7 +33,7 @@
 #include "py32f071xx_ll_Start_Kit.h"
 
 /* Private define ------------------------------------------------------------*/
-#define Delay             40*3
+#define Delay             40*4
 
 /* Private variables ---------------------------------------------------------*/
 LL_LPTIM_InitTypeDef LPTIM_InitStruct = {0};

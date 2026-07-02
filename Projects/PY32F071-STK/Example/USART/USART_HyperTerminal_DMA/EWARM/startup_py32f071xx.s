@@ -84,7 +84,7 @@ __vector_table
         DCD     PVD_IRQHandler                 ; 1PVD through EXTI Line detect
         DCD     RTC_IRQHandler                 ; 2RTC through EXTI Line
         DCD     FLASH_IRQHandler               ; 3FLASH
-        DCD     RCC_IRQHandler                 ; 4RCC
+        DCD     RCC_CTC_IRQHandler             ; 4RCC&CTC
         DCD     EXTI0_1_IRQHandler             ; 5EXTI Line 0 and 1
         DCD     EXTI2_3_IRQHandler             ; 6EXTI Line 2 and 3
         DCD     EXTI4_15_IRQHandler            ; 7EXTI Line 4 to 15
@@ -172,10 +172,10 @@ RTC_IRQHandler
 FLASH_IRQHandler
         B FLASH_IRQHandler
 
-        PUBWEAK RCC_IRQHandler
+        PUBWEAK RCC_CTC_IRQHandler
         SECTION .text:CODE:REORDER:NOROOT(1)
-RCC_IRQHandler
-        B RCC_IRQHandler
+RCC_CTC_IRQHandler
+        B RCC_CTC_IRQHandler
 
         PUBWEAK EXTI0_1_IRQHandler
         SECTION .text:CODE:REORDER:NOROOT(1)

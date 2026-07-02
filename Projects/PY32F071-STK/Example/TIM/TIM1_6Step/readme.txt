@@ -44,6 +44,10 @@ then above waveform can be observed to be absent, and the output pin output idle
 level (Idle level is determined by register configuration)
 ================================================================================
 注意事项：
+如果需要使用按键:
+StartKit版本为V2.0以下,需将StartKit.h中的StartKitVersion 2 注释掉，并打开
+StartKitVersion 1
+StartKit版本为V2.0及以上版本,则无需操作
 PWM时序如下：
         第一步      第二步      第三步      第四步      第五步     第六步     
 CH1      1           0           0           0           0          1          
@@ -63,6 +67,10 @@ CH3  (PA10)   _______||||||||||||||||_______________________________||||||||||||
 CH3N (PB05)   ________________________________|||||||||||||||________________________________|||||||||||||||
 
 Notes:
+If you need to use buttons:
+StartKit version is below V2.0, you need to comment StartKitVersion 2 in
+StartKit.h, and open StartKitVersion 1 
+StartKit version is V2.0 and above, no operation is required
 The PWM timing is as follows:
        Step 1      Step 2      Step 3      Step 4      Step 5     Step 6     
 CH1      1           0           0           0           0          1          

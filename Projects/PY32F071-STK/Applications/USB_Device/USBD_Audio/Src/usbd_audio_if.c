@@ -138,13 +138,14 @@ volatile bool ep_tx_busy_flag = false;
 
 void usbd_configure_done_callback(void)
 {
-    /* setup first out ep read transfer */
-    usbd_ep_start_read(AUDIO_OUT_EP, out_buffer, AUDIO_OUT_PACKET);
+    
 }
 void usbd_audio_open(uint8_t intf)
 {
     if (intf == 1) {
         rx_flag = 1;
+        /* setup first out ep read transfer */
+        usbd_ep_start_read(AUDIO_OUT_EP, out_buffer, AUDIO_OUT_PACKET);
     } else {
         tx_flag = 1;
     }

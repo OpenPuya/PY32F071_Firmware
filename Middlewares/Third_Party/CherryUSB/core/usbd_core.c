@@ -452,7 +452,22 @@ static bool usbd_std_interface_req_handler(struct usb_setup_packet *setup,
             break;
 
         case USB_REQUEST_GET_DESCRIPTOR:
-            if (type == 0x22) { /* HID_DESCRIPTOR_TYPE_HID_REPORT */
+            if (type == 0x21) { /* HID_DESCRIPTOR_TYPE_HID */
+                USB_LOG_INFO("read hid descriptor\r\n");
+                usb_slist_t *i;
+
+                usb_slist_for_each(i, &usbd_intf_head)
+                {
+                    struct usbd_interface *intf = usb_slist_entry(i, struct usbd_interface, list);
+
+                    if (intf->intf_num == intf_num) {
+                        *data = (uint8_t *)intf->hid_descriptor;
+                        *len = 0x09;
+                        return true;
+                    }
+                }
+            }
+            else if (type == 0x22) { /* HID_DESCRIPTOR_TYPE_HID_REPORT */
                 USB_LOG_INFO("read hid report descriptor\r\n");
                 usb_slist_t *i;
 
